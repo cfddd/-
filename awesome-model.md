@@ -562,6 +562,120 @@ int main(){
 }
 ```
 # 数据结构
+## 并查集
+```
+int find(int x)  // 并查集
+{
+    if (p[x] != x) p[x] = find(p[x]);
+    return p[x];
+}
+```
+### 带权并查集
+有一个长度为 N 的整数序列。
+下面会按顺序给出 M 个对该序列的描述，每个描述给定三个整数 l,r,s，表示该序列的第 l 个元素至第 r 个元素相加之和为 s。
+对于每个描述，你需要判断该描述是否会与前面提到的描述发生冲突，如果发生冲突，则认为该描述是错误的。
+如果一个描述是错误的，则在对后续描述进行判断时，应当将其忽略。
+请你计算一共有多少个描述是错误的。
+```
+//带权并查集类似于前缀和
+//如果给定区间的两个端点属于同一个并查集，判断这个区间的值是否与计算得到的值相等(必须是相等，不要考虑小于的情况)
+//                    不属于同一个并查集，将这两个并查集合并。
+
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 2e5 + 10;
+int p[N],w[N];
+
+int find(int x)  // 并查集
+{
+    if (p[x] != x){
+        int t = p[x];              //合并操作，带上w更新
+        p[x] = find(p[x]);         //经过了状态压缩，头节点变成了别的节点的子
+        w[x] += w[t];              //当前节点加上原先的头（现在是另一个的子），是当前节点到头的距离
+    }
+    return p[x];
+}
+
+int main()
+{
+    int n, m; cin >> n >> m;
+    for (int i = 1; i <= n+1; i ++ ) {
+        p[i] = i;
+        w[i] = 0;
+    }
+
+    int ans = 0;
+    while(m--)
+    {
+        int l,r,s;cin >> l >> r >> s;
+        int ll = find(l);          //前缀和某一端加一都可
+        int rr = find(r+1);
+        if(ll == rr){
+            if(w[l]-w[r+1] != s)ans++;//距离差值只能是等于s
+        }else{
+            p[ll] = rr;               //合并的方向，ll和rr可以交换（同时r+1和l交换）
+            w[ll] = w[r+1]-w[l]+s;    //见图
+        }
+    }
+    cout << ans << endl;
+    //for(int i = 0;i <= n;i++)cout << w[i] << " ";
+
+    return 0;
+} 
+
+```
+动物王国中有三类动物 A,B,C，这三类动物的食物链构成了有趣的环形。
+A 吃 B，B 吃 C，C 吃 A。
+现有 N 个动物，以 1∼N 编号。
+每个动物都是 A,B,C 中的一种，但是我们并不知道它到底是哪一种。
+有人用两种说法对这 N 个动物所构成的食物链关系进行描述：
+第一种说法是 1 X Y，表示 X 和 Y 是同类。
+第二种说法是 2 X Y，表示 X 吃 Y。
+此人对 N 个动物，用上述两种说法，一句接一句地说出 K 句话，这 K 句话有的是真的，有的是假的。
+当一句话满足下列三条之一时，这句话就是假话，否则就是真话。
+1. 当前的话与前面的某些真的话冲突，就是假话；
+2. 当前的话中 X 或 Y 比 N 大，就是假话；
+3. 当前的话表示 X 吃 X，就是假话。
+你的任务是根据给定的 N 和 K 句话，输出假话的总数。
+```
+#include<iostream>
+using namespace std;
+const int N = 10e5 + 10;
+int num[N],d[N];
+int find(int x){
+    if(num[x] != x){
+        int t = find(num[x]);
+        d[x] += d[num[x]];
+        num[x] = t;
+        
+    }
+    return num[x];
+}
+int main(){
+    int n,m;cin >> n >> m;
+    int z,x,y,ans = 0;
+    for (int i = 1; i <= n; i ++ ) num[i] = i;
+    for (int i = 0; i < m; i ++ ){
+        scanf("%d%d%d", &z, &x,&y);
+        if(x > n || y > n){ans++;continue;}
+        int xx = find(x),yy = find(y);
+        if(z==1){
+            if(xx!=yy){
+                num[xx]=yy;
+                d[xx]=d[y]-d[x];
+            }else if(xx == yy && (d[x]-d[y]) % 3 != 0)ans++;
+        }else if(z == 2){
+            if(xx!=yy){
+                num[xx]=yy;
+                d[xx]=d[y]-d[x]+1;
+            }else if(xx == yy && (d[x]-d[y]-1)%3!=0)ans++;
+        }
+    }
+    cout << ans;
+}
+
+```
+
 ## kmp
 ```
 //kmp，找字串
