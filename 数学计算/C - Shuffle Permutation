@@ -1,0 +1,120 @@
+行和列分开思考
+原本很混乱的题，就找到了计算方法
+
+```
+#include<bits/stdc++.h>
+#define debug1(a) cout<<#a<<'='<< a << endl;
+#define debug2(a,b) cout<<#a<<" = "<<a<<"  "<<#b<<" = "<<b<<endl;
+#define debug3(a,b,c) cout<<#a<<" = "<<a<<"  "<<#b<<" = "<<b<<"  "<<#c<<" = "<<c<<endl;
+#define debug4(a,b,c,d) cout<<#a<<" = "<<a<<"  "<<#b<<" = "<<b<<"  "<<#c<<" = "<<c<<"  "<<#d<<" = "<<d<<endl;
+#define debug5(a,b,c,d,e) cout<<#a<<" = "<<a<<"  "<<#b<<" = "<<b<<"  "<<#c<<" = "<<c<<"  "<<#d<<" = "<<d<<"  "<<#e<<" = "<<e<<endl;
+#define debug0(x) cout << "debug0: " << x << endl
+#define fr(t, i, n)for (long long i = t; i < n; i++)
+#define YES cout<<"Yes"<<endl
+#define NO cout<<"No"<<endl
+#define fi first
+#define se second
+#define int long long
+using namespace std;
+
+typedef long long LL;
+typedef unsigned long long ULL;
+typedef pair<int,int> PII;
+typedef pair<LL,LL> PLL;
+
+//#pragma GCC optimize(3,"Ofast","inline")
+//#pragma GCC optimize(2)
+
+const int N = 60,mod = 998244353;
+int a[N][N];
+int pr[N],pc[N];
+int sizepr[N],sizepc[N];
+bool st[N];
+int power[N];
+
+int find(int u,int p[])
+{
+    if(p[u] != u)return p[u] = find(p[u],p);
+    return p[u];
+}
+
+void solve() 
+{
+    int n,k;cin >> n >> k;
+    for(int i = 1;i <= n;i ++)
+        for(int j = 1;j <= n;j ++)
+            cin >> a[i][j];
+    
+    for(int i = 1;i <= n;i ++)
+    {
+        pr[i] = pc[i] = i;
+        sizepr[i] = sizepc[i] = 1;
+    }
+
+    
+    {
+    for(int x = 1;x <= n;x ++)
+    {
+        for(int y = x+1;y <= n;y ++)
+        {
+            bool flag1 = 1,flag2 = 1;
+            for(int i = 1;i <= n;i ++){
+
+                if(a[i][x] + a[i][y] > k)flag1 = 0;
+                if(a[x][i] + a[y][i] > k)flag2 = 0;
+            }
+            if(flag1)
+            {
+                int px = find(x,pr),py = find(y,pr);
+                if(px != py)
+                {
+                    pr[px] = py;
+                    sizepr[py] += sizepr[px];
+                }
+            }
+            if(flag2)
+            {
+                int px = find(x,pc),py = find(y,pc);
+                if(px != py)
+                {
+                    pc[px] = py;
+                    sizepc[py] += sizepc[px];
+                }
+            }
+        }
+    }
+}
+
+    int ans = 1;
+    for(int i = 1;i <= n;i ++)if(!st[find(i,pc)])
+    {
+        st[find(i,pc)] = 1;
+        ans = (ans * power[sizepc[find(i,pc)]]) % mod;
+    }
+    memset(st,0,sizeof st);
+    for(int i = 1;i <= n;i ++)if(!st[find(i,pr)])
+    {
+        st[find(i,pr)] = 1;
+        ans = (ans * power[sizepr[find(i,pr)]]) % mod;
+    }
+
+    cout << ans << endl;
+}
+
+signed main()
+{
+    /*
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    */
+    power[0] = 1;
+    for(int i = 1;i < N;i ++)power[i] = (power[i-1] * i) % mod;
+    int T = 1;//cin >> T;
+    while(T--){
+        solve();
+    }
+    return 0;
+}
+
+```
