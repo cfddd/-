@@ -1,4 +1,3 @@
-
 # 数学知识
 ## 质数
 ### 试除法判定质数
@@ -212,6 +211,46 @@ long long C(int n,int m){//n在100以内，m要选较小的一边
 }
 ```
 **处理阶乘逆元（用到过一次）**
+
+```
+vector<int> fac;
+vector<int> ifac;
+
+int binExp(int base, int exp) {
+    base %= MOD;
+    int res = 1;
+    while (exp > 0) {
+        if (exp & 1) {
+            res = (int) ((long long) res * base % MOD);
+        }
+        base = (int) ((long long) base * base % MOD);
+        exp >>= 1;
+    }
+    return res;
+}
+
+void precompute(int n) {
+    fac.resize(n + 1);
+    fac[0] = fac[1] = 1;
+    for (int i = 2; i <= n; i++) {
+        fac[i] = (int) ((long long) i * fac[i-1] % MOD);
+    }
+
+    ifac.resize(n + 1);
+    for (int i = 0; i < fac.size(); i++) {
+        ifac[i] = binExp(fac[i], MOD - 2);
+    }
+    return;
+}
+
+int nCr(int n, int r) {
+    if ((n < 0) || (r < 0) || (r > n)) {
+        return 0;
+    }
+    return (int) ((long long) fac[n] * ifac[r] % MOD * ifac[n - r] % MOD);
+}
+```
+
 ```
 ## II
 //因为 1≤n≤10000, 1≤b≤a≤10^5 所以不能直接求,但是可以预处理出b！和a！和(a-b)！
