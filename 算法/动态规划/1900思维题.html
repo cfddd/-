@@ -1,0 +1,164 @@
+<ul>
+<li>https://codeforces.com/problemset/problem/1718/A2</li>
+</ul>
+<hr />
+<p>&nbsp;</p>
+<p>题意：</p>
+<ul>
+<li>给一个长度为$n$的数组$a$</li>
+<li>每次操作选择一个区间$[L,R](1 \leq L \ leq R \leq n)$,和一个整数x</li>
+<li>把区间所有的数异或上x，每次操作的的代价是$（R - L + 1）/2$</li>
+<li>问把数组$a$全部变为$0$的最小代价是多少</li>
+</ul>
+<hr />
+<p>&nbsp;</p>
+<p>思路：</p>
+<ul>
+<li>观察发现$[L,R]$长度为1或2、3或4&hellip;&hellip;的代价是相等的，而且还可以进一步推断，每一次的操作都可以分割成由1或2组成的小区间（在代价上数值相等）</li>
+<li>于是可见我们要分割的小区间长度为2的要尽可能的多（或者说每次操作都贪心少掉一次），才能达到代价最小</li>
+<li>令$pre[i] = a[1] $^$ a[2] $^$......$^$a[i]$,对于一个区间[L,R],当pre[L] == pre[R]时，容易发现这个区间操作的最小代价是R-L-1，否则是R-L</li>
+<li>于是题目就转化成了一个简单的线性dp，时间复杂度O（n^2）的做法呼之欲出</li>
+<li>但是显然O（n^2）是不太够用的，我们需要优化，用一个map来记录上一个前缀异或和最近的位置，从这个位置进行状态转移即可</li>
+<li>时间复杂度是O(n)</li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> fr(t, i, n)for (long long i = t; i &lt; n; i++)
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+<span style="color: #008000;">//</span><span style="color: #008000;">#define int long long</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 1e5+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> a[N],pre[N],f[N];
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    </span><span style="color: #0000ff;">int</span> n;cin &gt;&gt;<span style="color: #000000;"> n;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>; i &lt;= n; i++<span style="color: #000000;">)
+    {
+        cin </span>&gt;&gt;<span style="color: #000000;"> a[i];
+        pre[i] </span>= pre[i-<span style="color: #800080;">1</span>] ^<span style="color: #000000;"> a[i];
+    }
+
+    map</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> idx;
+    idx[</span><span style="color: #800080;">0</span>] = <span style="color: #800080;">0</span><span style="color: #000000;">;　　　　　　　　　　//需要注意，刚开始的位置记录为0，0
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        f[i] </span>= f[i-<span style="color: #800080;">1</span>] + <span style="color: #800080;">1</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">if</span><span style="color: #000000;">(idx.count(pre[i]))
+        {
+            f[i] </span>= min(f[i],f[idx[pre[i]]] + i - idx[pre[i]] - <span style="color: #800080;">1</span><span style="color: #000000;">);
+        }
+        idx[pre[i]] </span>=<span style="color: #000000;"> i;
+    }
+    cout </span>&lt;&lt; f[n] &lt;&lt;<span style="color: #000000;"> endl;
+}
+
+signed main()
+{
+    
+    ios::sync_with_stdio(</span><span style="color: #0000ff;">false</span><span style="color: #000000;">);
+    cin.tie(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    cout.tie(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    
+    </span><span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;cin &gt;&gt;<span style="color: #000000;"> T;
+    
+    </span><span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<hr />
+<ul>
+<li>从这个O（n）的线性dp，能发现每个位置都是找上一个最近的相同异或前缀和的位置，那么我们可以直接省略掉这个dp的过程，直接用map记录</li>
+<li>答案就是&nbsp; n - x（[L,R]，pre[L] == pre[R]最多的数量）</li>
+</ul>
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> fr(t, i, n)for (long long i = t; i &lt; n; i++)
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+<span style="color: #008000;">//</span><span style="color: #008000;">#define int long long</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 1e5+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> a[N],pre[N];
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    </span><span style="color: #0000ff;">int</span> n;cin &gt;&gt;<span style="color: #000000;"> n;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>; i &lt;= n; i++<span style="color: #000000;">)
+    {
+        cin </span>&gt;&gt;<span style="color: #000000;"> a[i];
+        pre[i] </span>= pre[i-<span style="color: #800080;">1</span>] ^<span style="color: #000000;"> a[i];
+    }
+
+    </span><span style="color: #0000ff;">set</span>&lt;<span style="color: #0000ff;">int</span>&gt; st;st.insert(<span style="color: #800080;">0</span><span style="color: #000000;">);
+    </span><span style="color: #0000ff;">int</span> ans =<span style="color: #000000;"> n;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">if</span><span style="color: #000000;">(st.count(pre[i]))
+        {
+            ans </span>--<span style="color: #000000;">;
+            st.clear();
+        }
+        st.insert(pre[i]);
+    }
+    cout </span>&lt;&lt; ans &lt;&lt;<span style="color: #000000;"> endl;
+}
+
+signed main()
+{
+    
+    ios::sync_with_stdio(</span><span style="color: #0000ff;">false</span><span style="color: #000000;">);
+    cin.tie(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    cout.tie(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    
+    </span><span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;cin &gt;&gt;<span style="color: #000000;"> T;
+    
+    </span><span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

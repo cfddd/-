@@ -1,0 +1,72 @@
+<p><a href="https://leetcode.cn/problems/count-pairs-with-xor-in-a-range/description/">1803. 统计异或值在范围内的数对有多少 - 力扣（Leetcode）</a></p>
+<hr />
+<p>题意：</p>
+<p><img src="https://img2023.cnblogs.com/blog/2740326/202301/2740326-20230107113423239-774875125.png" alt="" loading="lazy" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<p>思路：</p>
+<ul>
+<li>很经典的方法，01字典树，同时在树上多维护一个数据，有多少个节点经过当前节点，记为cnt</li>
+<li>我们可以写出一个query（x，tar）函数，x时num数组中的数，答案就是query（x,high）- query（x，low-1）</li>
+<li>构造一棵空树，然后在每个节点插入，按照 x 向下查找位置时，记录经过的点在之前有多少个节点经过（因为题目有一个i &lt; j 的条件），然后讨论从高位往低位</li>
+</ul>
+<ol>
+<li style="list-style-type: none;"><ol>
+<li>tar 当前第 i 位二进制为 1 时，说明异或对结果的第 i 位可以为 0 或 1。往异或结果为 0 的子节点走，之后所有的必然都比 tar 小，可以直接加上这个子节点的cnt；往异或结果为 1 的子节点走，之后需再判断</li>
+<li>tar 当前第 i 位二进制为 0 时，说明异或对结果的第 i 位只能为 0。只能往对应的子节点走</li>
+<li>在上面的走法，如果无法走，就停止，返回已经算出来的数量</li>
+</ol></li>
+</ol>
+<ul>
+<li>像这样计算一个，插入一个就能得到答案了</li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = <span style="color: #800080;">20005</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span> trie[N * <span style="color: #800080;">15</span>][<span style="color: #800080;">2</span>], cnt[N * <span style="color: #800080;">15</span><span style="color: #000000;">], idx;
+</span><span style="color: #0000ff;">class</span><span style="color: #000000;"> Solution { 
+</span><span style="color: #0000ff;">public</span><span style="color: #000000;">:
+    </span><span style="color: #0000ff;">int</span> countPairs(vector&lt;<span style="color: #0000ff;">int</span>&gt;&amp; nums, <span style="color: #0000ff;">int</span> low, <span style="color: #0000ff;">int</span><span style="color: #000000;"> high) {
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">get</span>(nums, high) - <span style="color: #0000ff;">get</span>(nums, low - <span style="color: #800080;">1</span><span style="color: #000000;">);
+    }
+    </span><span style="color: #0000ff;">int</span> <span style="color: #0000ff;">get</span>(vector&lt;<span style="color: #0000ff;">int</span>&gt;&amp; nums, <span style="color: #0000ff;">int</span><span style="color: #000000;"> high) {
+        idx </span>= <span style="color: #800080;">0</span><span style="color: #000000;">;
+        memset(trie, </span><span style="color: #800080;">0</span>, <span style="color: #0000ff;">sizeof</span><span style="color: #000000;">(trie));
+        memset(cnt, </span><span style="color: #800080;">0</span>, <span style="color: #0000ff;">sizeof</span><span style="color: #000000;">(cnt));
+        </span><span style="color: #0000ff;">int</span> ans = <span style="color: #800080;">0</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">for</span> (<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>; i &lt; nums.size(); i++<span style="color: #000000;">) {
+            ans </span>+=<span style="color: #000000;"> query(nums[i], high);
+            add(nums[i]); 
+        }
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> ans;
+    }
+    </span><span style="color: #0000ff;">void</span> add(<span style="color: #0000ff;">int</span><span style="color: #000000;"> x) {
+        </span><span style="color: #0000ff;">int</span> p = <span style="color: #800080;">0</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">for</span> (<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">14</span>; i &gt;= <span style="color: #800080;">0</span>; i--<span style="color: #000000;">) {
+            </span><span style="color: #0000ff;">int</span> u = (x &gt;&gt; i)  &amp; <span style="color: #800080;">1</span><span style="color: #000000;">;
+            </span><span style="color: #0000ff;">if</span> (trie[p][u] == <span style="color: #800080;">0</span>) trie[p][u] = ++<span style="color: #000000;">idx;
+            p </span>= trie[p][u]; <span style="color: #008000;">//</span><span style="color: #008000;">移动到下一个结点 </span>
+            cnt[p]++; <span style="color: #008000;">//</span><span style="color: #008000;"> 个数增加，cnt[x]代表x结点出现的次数</span>
+<span style="color: #000000;">        }
+    }
+    </span><span style="color: #0000ff;">int</span> query(<span style="color: #0000ff;">int</span> x, <span style="color: #0000ff;">int</span><span style="color: #000000;"> high) {
+        </span><span style="color: #0000ff;">int</span> sum = <span style="color: #800080;">0</span>, p = <span style="color: #800080;">0</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">for</span>  (<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">14</span>; i &gt;= <span style="color: #800080;">0</span>; i--<span style="color: #000000;">) {
+            </span><span style="color: #0000ff;">int</span> u = (x &gt;&gt; i) &amp; <span style="color: #800080;">1</span><span style="color: #000000;">;
+            </span><span style="color: #0000ff;">if</span> (((high &gt;&gt; i) &amp; <span style="color: #800080;">1</span>) == <span style="color: #800080;">1</span>) { <span style="color: #008000;">//</span><span style="color: #008000;">high当前i位为1, 那么x与以前数当前i位的异或可以位1或者0</span>
+                sum += cnt[trie[p][u]];<span style="color: #008000;">//</span><span style="color: #008000;">加上与x异或后当前i位为0的数量</span>
+                <span style="color: #0000ff;">if</span> (trie[p][u ^ <span style="color: #800080;">1</span>] == <span style="color: #800080;">0</span>) <span style="color: #0000ff;">return</span> sum; <span style="color: #008000;">//</span><span style="color: #008000;">没有结点可以继续走下去，直接返回</span>
+                p = trie[p][u ^ <span style="color: #800080;">1</span>]; <span style="color: #008000;">//</span><span style="color: #008000;">继续往异或的结点走下去</span>
+            } <span style="color: #0000ff;">else</span> { <span style="color: #008000;">//</span><span style="color: #008000;">high当前i位为0, x与以前数异或的第i为必须为0</span>
+                <span style="color: #0000ff;">if</span> (trie[p][u] == <span style="color: #800080;">0</span>) <span style="color: #0000ff;">return</span> sum; <span style="color: #008000;">//</span><span style="color: #008000;">没有结点走下去</span>
+                p = trie[p][u]; <span style="color: #008000;">//</span><span style="color: #008000;">寻找与x的第i位相同的进制，异或结果为0</span>
+<span style="color: #000000;">            }
+        }
+        sum </span>+= cnt[p]; <span style="color: #008000;">//</span><span style="color: #008000;">加上走到最后的结点数</span>
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> sum;
+    }
+};</span></pre>
+</div>
+<p>&nbsp;</p>

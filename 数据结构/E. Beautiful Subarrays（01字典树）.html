@@ -1,0 +1,124 @@
+<ul>
+<li><a href="https://codeforces.com/contest/665/problem/E">Problem - E - Codeforces</a></li>
+</ul>
+<hr />
+<p>题意：</p>
+<ul>
+<li>给一个长度为n的数组a，问有多少个连续的子数组的异或和大于等于k</li>
+</ul>
+<hr />
+<p>思路：</p>
+<ul>
+<li>01字典树</li>
+<li>建立前缀异或和数组，题目变为有多少个$a_i &circ; a_j(1 \leq i &lt; j \leq n)$</li>
+<li><a title="类似的题目" href="https://www.cnblogs.com/cfddfc/p/17032530.html" target="_blank">类似（几乎一模一样）的题目</a></li>
+<li>
+<p>一次插入一个左端点，然后枚举右端点的情况</p>
+</li>
+<li>
+<p>R ^ L $\leq$ k，���高位往低位</p>
+</li>
+<li>
+<p>$k_i = 1$，必须$R_i$ ^ $L_i = 1$，走&nbsp;$R_i $ ^ $ 1$；$R_i$ ^ $L_i = 0$会造成比 k 小，忽略</p>
+</li>
+<li>$k_i = 0$，若$R_i$ ^ $L_i = 1$，加上$R_i $ ^ $ 1 $这个方向，因为这个方向必然会比 k 小；若$R_i$ ^ $L_i = 0$，走$R_i $这个方向</li>
+</ul>
+<hr />
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+
+<span style="color: #008000;">//</span><span style="color: #008000;">#define int long long</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 1e6+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span> son[<span style="color: #800080;">32</span>*N][<span style="color: #800080;">2</span><span style="color: #000000;">],idx;
+</span><span style="color: #0000ff;">int</span> cnt[<span style="color: #800080;">32</span>*<span style="color: #000000;">N];
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> a[N];
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> n,k;
+
+</span><span style="color: #0000ff;">void</span> insert(<span style="color: #0000ff;">int</span><span style="color: #000000;"> x)                
+{
+    </span><span style="color: #0000ff;">int</span> p = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">for</span> (<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">30</span>; i &gt;= <span style="color: #800080;">0</span>; i --<span style="color: #000000;"> )
+    {
+        </span><span style="color: #0000ff;">int</span> &amp;s = son[p][x &gt;&gt; i &amp; <span style="color: #800080;">1</span><span style="color: #000000;">];
+        </span><span style="color: #0000ff;">if</span> (!s) s = ++<span style="color: #000000;"> idx;
+        p </span>=<span style="color: #000000;"> s;
+        cnt[p] </span>++<span style="color: #000000;">;
+    }
+}
+
+</span><span style="color: #0000ff;">int</span> <span style="color: #0000ff;">get</span>(<span style="color: #0000ff;">int</span> x,<span style="color: #0000ff;">int</span><span style="color: #000000;"> R)
+{
+    </span><span style="color: #0000ff;">int</span> p = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">int</span> res = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">30</span>;i &gt;= <span style="color: #800080;">0</span>;i --<span style="color: #000000;"> )
+    {
+        </span><span style="color: #0000ff;">if</span>(x &gt;&gt; i &amp; <span style="color: #800080;">1</span><span style="color: #000000;">)
+        {
+            p </span>= son[p][(R&gt;&gt;i&amp;<span style="color: #800080;">1</span>)^<span style="color: #800080;">1</span><span style="color: #000000;">];
+        }</span><span style="color: #0000ff;">else</span><span style="color: #000000;">{
+            res </span>+= cnt[son[p][(R&gt;&gt;i&amp;<span style="color: #800080;">1</span>)^<span style="color: #800080;">1</span><span style="color: #000000;">]];
+            p </span>= son[p][R&gt;&gt;i&amp;<span style="color: #800080;">1</span><span style="color: #000000;">];
+        }
+        </span><span style="color: #0000ff;">if</span>(p == <span style="color: #800080;">0</span>)<span style="color: #0000ff;">return</span><span style="color: #000000;"> res;
+    }
+    </span><span style="color: #0000ff;">return</span> res +<span style="color: #000000;"> cnt[p];
+}
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    cin </span>&gt;&gt; n &gt;&gt;<span style="color: #000000;"> k;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        cin </span>&gt;&gt;<span style="color: #000000;"> a[i];
+        a[i] </span>^= a[i-<span style="color: #800080;">1</span><span style="color: #000000;">];
+    }
+
+    </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span> ans = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    insert(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        ans </span>+= <span style="color: #0000ff;">get</span><span style="color: #000000;">(k,a[i]);
+        insert(a[i]);
+    }
+    cout </span>&lt;&lt; ans &lt;&lt;<span style="color: #000000;"> endl;
+}
+
+signed main()
+{
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    </span><span style="color: #008000;">*/</span>
+    <span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">cin &gt;&gt; T;</span>
+
+    <span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

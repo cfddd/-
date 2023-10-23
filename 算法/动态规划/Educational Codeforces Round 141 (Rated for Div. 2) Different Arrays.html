@@ -1,0 +1,118 @@
+<ul>
+<li><a href="https://codeforces.com/contest/1783/problem/D">Problem - D - Codeforces</a></li>
+</ul>
+<hr />
+<p>题意：</p>
+<ul>
+<li>给一个长度为n的数组a，下标从2到n-1，每个位置执行一次操作</li>
+<li>操作：设操作位置为i，$a_{i-1} += a_i, a_{i+1} -= a_i$，或者$a_{i-1} -= a_i, a_{i+1} += a_i$</li>
+<li>问最终能得到多少个不同的数组a，数量模998244353</li>
+<li>数据<br /><br /><img src="https://img2023.cnblogs.com/blog/2740326/202301/2740326-20230109215907925-1463097067.png" alt="" loading="lazy" />
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+</li>
+
+
+</ul>
+<hr />
+<p>思路：</p>
+<ul>
+<li><span style="font-style: italic;">看到这个数据，有动态规划的感觉，但是对状态定义感觉很麻烦，所以就没做了</span></li>
+<li>状态定义：$f[i][j]$表示数组a上第i个位置，元素大小为j的方案数</li>
+<li>状态转移：
+<ul>
+<li>当 j 不为0的时候</li>
+<li>$f[i+1][j + a[i+1]] =&nbsp;\sum_{k=-M}^{M} f[i][j]$</li>
+<li>$f[i+1][- j + a[i+1]] =\sum_{k=-M}^{M} f[i][j]$</li>
+<li>当 j 为0的时候，如果按照上面的方法，显然多算了一次（因为0不会改变数组）</li>
+<li>$f[i+1][a[i+1]] = f[i][j]$</li>
+
+
+</ul>
+
+
+</li>
+<li>因为减法操作 j 的状态可能为负数，所以加上一个 M = 300*300，改变相对位置</li>
+<li>数组大小：f[N][2*M],N=300,M=300*300</li>
+<li>时间复杂度：O（N*M）</li>
+
+
+</ul>
+<p>&nbsp;</p>
+<hr />
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+
+<span style="color: #008000;">//</span><span style="color: #008000;">#define int long long</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = <span style="color: #800080;">310</span>,mod = <span style="color: #800080;">998244353</span>,M = <span style="color: #800080;">300</span>*<span style="color: #800080;">300</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> a[N];
+</span><span style="color: #0000ff;">int</span> f[N][M*<span style="color: #800080;">2</span> + <span style="color: #800080;">10</span><span style="color: #000000;">];
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    </span><span style="color: #0000ff;">int</span> n;cin &gt;&gt;<span style="color: #000000;"> n;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++)cin &gt;&gt;<span style="color: #000000;"> a[i];
+
+    f[</span><span style="color: #800080;">2</span>][a[<span style="color: #800080;">2</span>] + M] = <span style="color: #800080;">1</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">2</span>;i &lt;= n-<span style="color: #800080;">1</span>;i ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> j = -M;j &lt;= M;j ++<span style="color: #000000;">)
+        {
+            </span><span style="color: #0000ff;">if</span><span style="color: #000000;">(j)
+            {
+                </span><span style="color: #0000ff;">if</span>(j + a[i+<span style="color: #800080;">1</span>] + M &gt;= <span style="color: #800080;">0</span> &amp;&amp; j + a[i+<span style="color: #800080;">1</span>] + M &lt;= <span style="color: #800080;">2</span>*M)(f[i+<span style="color: #800080;">1</span>][j + a[i+<span style="color: #800080;">1</span>] + M] += f[i][j + M]) %=<span style="color: #000000;"> mod;
+                </span><span style="color: #0000ff;">if</span>(-j + a[i+<span style="color: #800080;">1</span>] + M &gt;= <span style="color: #800080;">0</span> &amp;&amp; -j + a[i+<span style="color: #800080;">1</span>] + M &lt;= <span style="color: #800080;">2</span>*M)(f[i+<span style="color: #800080;">1</span>][-j + a[i+<span style="color: #800080;">1</span>] + M] += f[i][j + M]) %=<span style="color: #000000;"> mod;
+            }</span><span style="color: #0000ff;">else</span><span style="color: #000000;">{
+                f[i</span>+<span style="color: #800080;">1</span>][a[i+<span style="color: #800080;">1</span>] + M] = f[i][j +<span style="color: #000000;"> M];
+            }
+        }
+    }
+
+    </span><span style="color: #0000ff;">int</span> ans = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = -M;i &lt;= M;i ++<span style="color: #000000;">)
+    {
+        (ans </span>+= f[n][i+M]) %=<span style="color: #000000;"> mod;
+    }
+    cout </span>&lt;&lt; ans &lt;&lt;<span style="color: #000000;"> endl;
+}
+
+signed main()
+{
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    </span><span style="color: #008000;">*/</span>
+    <span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">cin &gt;&gt; T;</span>
+
+    <span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

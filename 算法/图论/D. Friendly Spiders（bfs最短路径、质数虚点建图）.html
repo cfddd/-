@@ -1,0 +1,136 @@
+<p>题意：</p>
+<ul>
+<li>给一个长度为 n 的数组 a ，数组中两两不互质的数可以建一条边，即$gcd(a[i],a[j]) &ne; 1$，i，j之间存在伊奥无向边</li>
+<li>问 s 到 t 的最短路径是多长，并输出</li>
+</ul>
+<hr />
+<p>题解</p>
+<ul>
+<li>根据唯一分解定理，所有的数都可以表示为$\prod p_i^{k_j}$</li>
+<li>1e9之内所有的数，其不同质数数量不会很多（本体数据3e5，更少了，不会超过10个）</li>
+<li>所以我们可以利用这些质数来建边</li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+
+<span style="color: #008000;">//</span><span style="color: #008000;">#define int long long</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 3e5+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> a[N];
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> n,s,t;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">int primes[N], cnt;</span>
+<span style="color: #0000ff;">bool</span><span style="color: #000000;"> st[N];
+vector</span>&lt;vector&lt;<span style="color: #0000ff;">int</span>&gt;&gt; pr(N+<span style="color: #800080;">1</span>),edge(<span style="color: #800080;">2</span>*N+<span style="color: #800080;">1</span><span style="color: #000000;">);
+</span><span style="color: #0000ff;">int</span> dist[<span style="color: #800080;">2</span>*<span style="color: #000000;">N];
+</span><span style="color: #0000ff;">int</span> pre[<span style="color: #800080;">2</span>*<span style="color: #000000;">N];
+
+</span><span style="color: #0000ff;">void</span> get_primes(<span style="color: #0000ff;">int</span><span style="color: #000000;"> n)
+{
+    </span><span style="color: #0000ff;">for</span> (<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">2</span>; i &lt;= n; i ++<span style="color: #000000;"> )
+    {
+        </span><span style="color: #0000ff;">if</span> (st[i]) <span style="color: #0000ff;">continue</span><span style="color: #000000;">;
+        </span><span style="color: #008000;">//</span><span style="color: #008000;"> primes[cnt ++ ] = i;</span>
+        <span style="color: #0000ff;">for</span> (<span style="color: #0000ff;">int</span> j = i; j &lt;= n; j +=<span style="color: #000000;"> i){
+            st[j] </span>= <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+            pr[j].push_back(i);
+        }
+    }
+}
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    memset(dist,</span><span style="color: #800080;">0x3f</span>,<span style="color: #0000ff;">sizeof</span><span style="color: #000000;"> dist);
+
+    cin </span>&gt;&gt;<span style="color: #000000;"> n;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++)cin &gt;&gt;<span style="color: #000000;"> a[i];
+    cin </span>&gt;&gt; s &gt;&gt;<span style="color: #000000;"> t;
+
+    get_primes(N</span>-<span style="color: #800080;">1</span><span style="color: #000000;">);
+
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span><span style="color: #000000;">(auto x:pr[a[i]])
+        {
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">debug2(i,x+n);</span>
+            edge[i].push_back(x +<span style="color: #000000;"> n);
+            edge[x </span>+<span style="color: #000000;"> n].push_back(i);
+        }
+    }
+
+    dist[s] </span>= <span style="color: #800080;">0</span><span style="color: #000000;">;
+    queue</span>&lt;<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> q;q.push(s);
+    </span><span style="color: #0000ff;">while</span><span style="color: #000000;">(q.size())
+    {
+        </span><span style="color: #0000ff;">int</span> y =<span style="color: #000000;"> q.front();q.pop();
+        </span><span style="color: #0000ff;">for</span><span style="color: #000000;">(auto x:edge[y])
+        {
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">debug2(y,x);</span>
+            <span style="color: #0000ff;">if</span>(dist[x] &gt; dist[y] + <span style="color: #800080;">1</span><span style="color: #000000;">)
+            {
+                dist[x] </span>= dist[y] + <span style="color: #800080;">1</span><span style="color: #000000;">;
+                pre[x] </span>=<span style="color: #000000;"> y;
+                q.push(x);
+            }
+        }
+    }
+
+    </span><span style="color: #0000ff;">if</span>(dist[t] == <span style="color: #800080;">0x3f3f3f3f</span><span style="color: #000000;">)
+    {
+        cout </span>&lt;&lt; -<span style="color: #800080;">1</span> &lt;&lt;<span style="color: #000000;"> endl;
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> ;
+    }
+
+    stack</span>&lt;<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> sta;sta.push(t);
+    </span><span style="color: #0000ff;">while</span>(t !=<span style="color: #000000;"> s)
+    {
+        t </span>=<span style="color: #000000;"> pre[t];
+        </span><span style="color: #0000ff;">if</span>(t &lt;=<span style="color: #000000;"> n)sta.push(t);
+    }
+    cout </span>&lt;&lt; sta.size() &lt;&lt;<span style="color: #000000;"> endl;
+    </span><span style="color: #0000ff;">while</span><span style="color: #000000;">(sta.size())
+    {
+        cout </span>&lt;&lt; sta.top() &lt;&lt; <span style="color: #800000;">"</span> <span style="color: #800000;">"</span><span style="color: #000000;">;
+        sta.pop();
+    }
+
+}
+
+signed main()
+{
+    
+    ios::sync_with_stdio(</span><span style="color: #0000ff;">false</span><span style="color: #000000;">);
+    cin.tie(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    cout.tie(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    
+    </span><span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">cin &gt;&gt; T;</span>
+
+    <span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

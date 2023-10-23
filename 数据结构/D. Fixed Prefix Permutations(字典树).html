@@ -1,0 +1,127 @@
+<ul>
+<li><a href="https://codeforces.com/contest/1792/problem/D">Problem - D - Codeforces</a></li>
+</ul>
+<hr />
+<p>题意：</p>
+<ul>
+<li>给一个n行m列的关于m的排列数组，n个m的排列，设为q[n]</li>
+<li>对于q[i]，找到最长的q[q[i]]排列是1，2，...，k，美丽值是k</li>
+<li>输出每一个的k</li>
+</ul>
+<hr />
+<p>思路：</p>
+<ul>
+<li>看样例一可以大概知道字典树是该怎么做</li>
+<li>对于1~m，找到原先的关于m的排列，数字的位置的坐标，树中插入</li>
+<li>然后查询原数组能走的最长路径</li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+
+<span style="color: #0000ff;">#define</span> int long long
+<span style="color: #008000;">//</span><span style="color: #008000;">#define int __int128</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">常数定义</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">double</span> eps = 1e-<span style="color: #800080;">4</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">const</span> <span style="color: #0000ff;">double</span> PI = acos(-<span style="color: #800080;">1.0</span><span style="color: #000000;">);
+</span><span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> INF = <span style="color: #800080;">0x3f3f3f3f</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 5e4+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span> a[N][<span style="color: #800080;">15</span><span style="color: #000000;">];
+
+</span><span style="color: #0000ff;">int</span> son[<span style="color: #800080;">15</span>*N][<span style="color: #800080;">15</span><span style="color: #000000;">], idx;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> n,m;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> start;
+
+</span><span style="color: #0000ff;">void</span> insert(<span style="color: #0000ff;">int</span><span style="color: #000000;"> a[])          
+{
+    </span><span style="color: #0000ff;">int</span> p =<span style="color: #000000;"> start;
+    </span><span style="color: #0000ff;">for</span> (<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>; i &lt;= m; i ++<span style="color: #000000;"> )
+    {
+        </span><span style="color: #0000ff;">int</span> u =<span style="color: #000000;"> a[i];
+        </span><span style="color: #0000ff;">if</span> (!son[p][u]) son[p][u] = ++<span style="color: #000000;"> idx;
+        p </span>=<span style="color: #000000;"> son[p][u];
+    }
+}
+
+</span><span style="color: #0000ff;">int</span> query(<span style="color: #0000ff;">int</span><span style="color: #000000;"> a[])
+{
+    </span><span style="color: #0000ff;">int</span> p =<span style="color: #000000;"> start;
+    </span><span style="color: #0000ff;">int</span> step = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">for</span> (<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>; i &lt;= m; i ++<span style="color: #000000;"> )
+    {
+        </span><span style="color: #0000ff;">int</span> u =<span style="color: #000000;"> a[i];
+        </span><span style="color: #0000ff;">if</span> (!son[p][u]) <span style="color: #0000ff;">return</span><span style="color: #000000;"> step;
+        p </span>=<span style="color: #000000;"> son[p][u];
+        step </span>++<span style="color: #000000;">;
+    }
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> step;
+}
+
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    start </span>=<span style="color: #000000;"> idx;
+
+    cin </span>&gt;&gt; n &gt;&gt;<span style="color: #000000;"> m;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> j = <span style="color: #800080;">1</span>;j &lt;= m;j ++<span style="color: #000000;">)
+        {
+            cin </span>&gt;&gt;<span style="color: #000000;"> a[i][j];
+        }
+        </span><span style="color: #0000ff;">int</span> temp[<span style="color: #800080;">15</span><span style="color: #000000;">];
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> j = <span style="color: #800080;">1</span>;j &lt;= m;j ++<span style="color: #000000;">)
+        {
+            temp[a[i][j]] </span>=<span style="color: #000000;"> j;
+        }
+        insert(temp);
+    }
+
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        cout </span>&lt;&lt; query(a[i]) &lt;&lt; <span style="color: #800000;">"</span> <span style="color: #800000;">"</span><span style="color: #000000;">;
+    }
+    cout </span>&lt;&lt;<span style="color: #000000;"> endl;
+
+}
+
+signed main()
+{
+    
+    
+    ios::sync_with_stdio(</span><span style="color: #0000ff;">false</span><span style="color: #000000;">);
+    cin.tie(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    cout.tie(</span><span style="color: #800080;">0</span><span style="color: #000000;">);
+    
+    </span><span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;cin &gt;&gt;<span style="color: #000000;"> T;
+
+    </span><span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

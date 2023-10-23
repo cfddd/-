@@ -1,0 +1,2 @@
+- [一分钟学会SOS DP,学不会来打我_ddong sosdp_issue是fw的博客-CSDN博客](https://blog.csdn.net/jziwjxjd/article/details/112488108)
+- [D - Without Carry (atcoder.jp)](https://atcoder.jp/contests/arc136/tasks/arc136_d)

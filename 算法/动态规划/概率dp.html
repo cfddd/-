@@ -1,0 +1,92 @@
+<ul>
+<li>https://codeforces.com/contest/678/problem/E</li>
+</ul>
+<hr />
+<p>思路：</p>
+<ul>
+<li>这个概率dp正着方向来算很麻烦，因为可以改变这个选手比赛的顺序（假设擅长的次序为p0，p1，p2，p3，...,pn）</li>
+<li>定义f[mask][i]为在mask状态下，赢家是i，mask在二进制上1表示已经上过场或者正在场上，0表示还未上过场</li>
+<li>状态转移：从终点f[1][0] = 1出发（因为要计算的概率是在让1号胜利的最大可能性上的），推导f[(1&lt;&lt;n)-1][0~n-1]中的最大值就是答案</li>
+<li>具体计算可以从2开始枚举mask，每次找到任意两个<strong>在擂台上的人，</strong>加上两个人互相击败的，但是赢家不变的情况</li>
+<li>此题难度较高，思维和代码能力缺一不可</li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+
+<span style="color: #0000ff;">#define</span> int long long
+
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = <span style="color: #800080;">20</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">double</span><span style="color: #000000;"> a[N][N];
+</span><span style="color: #0000ff;">double</span> f[<span style="color: #800080;">1</span>&lt;&lt;N][N];<span style="color: #008000;">//</span><span style="color: #008000;">f[i][j]表示状态为i（0上过擂台后已死亡，1表示存活）的情况下，j是当前状态的赢家(j+1)</span>
+
+
+<span style="color: #0000ff;">void</span><span style="color: #000000;"> solve()
+{
+    </span><span style="color: #0000ff;">int</span> n;cin &gt;&gt;<span style="color: #000000;"> n;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> j = <span style="color: #800080;">0</span>;j &lt; n;j ++<span style="color: #000000;">)
+        {
+            cin </span>&gt;&gt;<span style="color: #000000;"> a[i][j];
+        }
+    }
+
+    f[</span><span style="color: #800080;">1</span>][<span style="color: #800080;">0</span>] = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">最后的结果，逆推回初始状态max(f[(1&lt;&lt;n)-1][j])，全部存活，且第一个上场的人</span>
+    <span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> mask = <span style="color: #800080;">2</span>;mask &lt; <span style="color: #800080;">1</span> &lt;&lt; n; mask ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++)<span style="color: #0000ff;">if</span>(mask &gt;&gt; i &amp; <span style="color: #800080;">1</span><span style="color: #000000;">)
+        {
+            </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> j = <span style="color: #800080;">0</span>;j &lt; n;j ++)<span style="color: #0000ff;">if</span>(j != i &amp;&amp; (mask &gt;&gt; j &amp; <span style="color: #800080;">1</span><span style="color: #000000;">))
+            {
+                f[mask][i] </span>= max(f[mask][i],f[mask ^ (<span style="color: #800080;">1</span>&lt;&lt;i)][j] * a[j][i] + f[mask^(<span style="color: #800080;">1</span>&lt;&lt;j)][i] *<span style="color: #000000;"> a[i][j]);
+            }
+            
+        }
+    }
+    </span><span style="color: #0000ff;">double</span> ans = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+    {
+        ans </span>= max(ans,f[(<span style="color: #800080;">1</span>&lt;&lt;n)-<span style="color: #800080;">1</span><span style="color: #000000;">][i]);
+    }
+    printf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%.7lf</span><span style="color: #800000;">"</span><span style="color: #000000;">,ans);
+}
+
+signed main()
+{
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    </span><span style="color: #008000;">*/</span>
+    <span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">cin &gt;&gt; T;</span>
+
+    <span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

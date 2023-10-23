@@ -1,0 +1,240 @@
+<img src="https://img2023.cnblogs.com/blog/2740326/202301/2740326-20230122200725790-1641716625.png" alt="" loading="lazy" />
+<p>&nbsp;</p>
+<ul>
+<li>&nbsp;<a href="https://leetcode.cn/problems/check-if-point-is-reachable/description/?orderBy=most_votes">2543. 判断一个点是否可以到达 - 力扣（Leetcode）</a></li>
+</ul>
+<hr />
+<ul>
+<li>前两个移动很像辗转相除法（这个套路在 Codeforces 上已经出烂了）<span class="math math-inline">&lt;br&gt;</span></li>
+<li><span class="math math-inline">后两个移动可以让&nbsp;<span class="math math-inline"><span class="katex"><span class="katex-mathml">g<span class="katex-html"><span class="base"><span class="strut"><span class="mord mathnormal">&nbsp;乘上 $<span class="math math-inline"><span class="katex"><span class="katex-mathml">2^k$<span class="katex-html"><span class="base"><span class="strut"><span class="mord"><span class="mord"><br /></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">class</span><span style="color: #000000;"> Solution {
+</span><span style="color: #0000ff;">public</span><span style="color: #000000;">:
+    </span><span style="color: #0000ff;">bool</span> isReachable(<span style="color: #0000ff;">int</span> X, <span style="color: #0000ff;">int</span><span style="color: #000000;"> Y) {
+        </span><span style="color: #0000ff;">while</span>(!(X&amp;<span style="color: #800080;">1</span>))X &gt;&gt;= <span style="color: #800080;">1</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">while</span>(!(Y&amp;<span style="color: #800080;">1</span>))Y &gt;&gt;= <span style="color: #800080;">1</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">return</span> gcd(X,Y) == <span style="color: #800080;">1</span><span style="color: #000000;">;
+    }
+};</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<div>
+<ul>
+<li>https://codeforces.com/contest/1766/problem/D</li>
+</ul>
+<p>题意:</p>
+<p>找到连续的最长gcd(a+k，b+k)&nbsp;==&nbsp;1(a&nbsp;&lt;&nbsp;b,k&nbsp;=&nbsp;{0,1,2,...})</p>
+<hr />
+<p>&nbsp;</p>
+<ul>
+<li>思路：</li>
+<li>&nbsp;gcd(a+k,b+k)&nbsp;==&nbsp;gcd(a+k,b&nbsp;-&nbsp;a)</li>
+</ul>
+<ol>
+<li style="list-style-type: none;"><ol>
+<li>a&nbsp;-&nbsp;b&nbsp;=&nbsp;1时特判</li>
+<li>可以推出$gcd(a+k,b+k)&nbsp;==&nbsp;gcd(a+k,b&nbsp;-&nbsp;a)$,具体证明见https://codeforces.com/blog/entry/110066</li>
+<li>设两个的结果分别为g和h，显然a+k和b+k都是g的倍数，那么让其中一个大的倍数减掉一个小的倍数，显然还是g的倍数，充分性成立</li>
+<li>反证法也同理，a+k和b-a肯定都是h的倍数，一个倍数加上另一个倍数，肯定还是h的倍数，必要性成立</li>
+</ol></li>
+</ol><br />
+<ul>
+<li>接下来只需要找到b-a的质因子判断a+k是否有重复因子</li>
+<li>一个一个加显然超时，我们可以先预处理出每个数字的最大质因子，然后利用传递性，得到关于b-a的所有质因子</li>
+<li>设当前质因子为temp，更新答案的方法就是$ans&nbsp;=&nbsp;min(ans,(temp&nbsp;-&nbsp;a%temp)&nbsp;%&nbsp;temp)$</li>
+
+</ul>
+<div>
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug0(x) cout &lt;&lt; "debug0: " &lt;&lt; x &lt;&lt; endl
+<span style="color: #0000ff;">#define</span> fr(t, i, n)for (long long i = t; i &lt; n; i++)
+<span style="color: #0000ff;">#define</span> YES cout&lt;&lt;"Yes"&lt;&lt;endl
+<span style="color: #0000ff;">#define</span> nO cout&lt;&lt;"no"&lt;&lt;endl
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+<span style="color: #008000;">//</span><span style="color: #008000;">#define int long long</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 2e5+<span style="color: #800080;">10</span>,M = 1e7+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> to[M];
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    </span><span style="color: #0000ff;">int</span> x,y;scanf(<span style="color: #800000;">"</span><span style="color: #800000;">%d%d</span><span style="color: #800000;">"</span>,&amp;x,&amp;<span style="color: #000000;">y);
+    </span><span style="color: #0000ff;">if</span>(y == x+<span style="color: #800080;">1</span><span style="color: #000000;">)
+    {
+        printf(</span><span style="color: #800000;">"</span><span style="color: #800000;">-1\n</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> ;
+    }
+    
+    </span><span style="color: #0000ff;">int</span> now = y -<span style="color: #000000;"> x;
+    </span><span style="color: #0000ff;">int</span> ans =<span style="color: #000000;"> 1e9;
+    </span><span style="color: #0000ff;">for</span>(;now != <span style="color: #800080;">1</span>;now /=<span style="color: #000000;"> to[now])
+        ans </span>= min(ans, (now - x % to[now]) %<span style="color: #000000;"> to[now]);
+    
+    printf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d\n</span><span style="color: #800000;">"</span><span style="color: #000000;">,ans);
+}
+
+signed main()
+{
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    </span><span style="color: #008000;">*/</span><span style="color: #000000;">
+
+    to[</span><span style="color: #800080;">1</span>] = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">每个数字到它最大的质因子</span>
+    <span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">2</span>;i &lt; M;i ++)<span style="color: #0000ff;">if</span>(!<span style="color: #000000;">to[i])
+    {
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> j = i;j &lt; M;j += i)to[j] =<span style="color: #000000;"> i;
+    }
+
+    </span><span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span><span style="color: #000000;">;
+    scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;<span style="color: #000000;">T);
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">cin &gt;&gt; T;</span>
+    <span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+</div>
+<div>
+<div>
+<ul>
+<li>https://codeforces.com/contest/1762/problem/D</li>
+</ul>
+<p>题意：</p>
+</div>
+<div>给一个长度为n的permutation，每次一个询问，得到结果为gcd（i，j），请在2*n次之内找到那个是0（或者哪两个之中之一是0）</div>
+<hr /><br />
+<div>
+<p>思路：</p>
+
+</div>
+<div>
+<ul>
+<li>三个指针i，j，k（i&lt;j&lt;k）</li>
+
+</ul>
+
+</div>
+
+
+<br />
+<div>
+<ul>
+<li>令x=gcd(a[i],a[j]),y=gcd(a[i],a[k]);</li>
+
+</ul>
+
+</div>
+<div>　　　　1.&nbsp;如果x==y，显然a[i]&gt;0</div>
+<div>　　　　2.&nbsp;如果x&lt;y，可以证明a[j]&gt;0</div>
+<div>　　　　3.&nbsp;如果x&gt;y，可以证明a[k]&gt;0</div>
+<div>
+<ul>
+<li>这样就可以写出一个答案了</li>
+
+</ul>
+
+</div>
+<div>
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug0(x) cout &lt;&lt; "debug0: " &lt;&lt; x &lt;&lt; endl
+<span style="color: #0000ff;">#define</span> fr(t, i, n)for (long long i = t; i &lt; n; i++)
+<span style="color: #0000ff;">#define</span> YES cout&lt;&lt;"Yes"&lt;&lt;endl
+<span style="color: #0000ff;">#define</span> nO cout&lt;&lt;"no"&lt;&lt;endl
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+<span style="color: #008000;">//</span><span style="color: #008000;"> #define int long long</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 2e5+<span style="color: #800080;">10</span>,mod = <span style="color: #800080;">998244353</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">bool</span><span style="color: #000000;"> st[N];
+
+</span><span style="color: #0000ff;">int</span> ask(<span style="color: #0000ff;">int</span> a, <span style="color: #0000ff;">int</span><span style="color: #000000;"> b) {
+    cout </span>&lt;&lt; <span style="color: #800000;">"</span><span style="color: #800000;">? </span><span style="color: #800000;">"</span> &lt;&lt; a &lt;&lt; <span style="color: #800000;">"</span> <span style="color: #800000;">"</span> &lt;&lt; b &lt;&lt;<span style="color: #000000;"> endl;
+    </span><span style="color: #0000ff;">int</span> ans = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    cin </span>&gt;&gt;<span style="color: #000000;"> ans;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> ans;
+}
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    memset(st,</span><span style="color: #800080;">0</span>,<span style="color: #0000ff;">sizeof</span><span style="color: #000000;"> st);
+    </span><span style="color: #0000ff;">int</span> n;cin &gt;&gt;<span style="color: #000000;"> n;
+
+    </span><span style="color: #0000ff;">int</span> a[<span style="color: #800080;">3</span>] = {<span style="color: #800080;">1</span>,<span style="color: #800080;">2</span>,<span style="color: #800080;">3</span><span style="color: #000000;">};
+    </span><span style="color: #0000ff;">for</span><span style="color: #000000;">(;;)
+    {
+        sort(a,a</span>+<span style="color: #800080;">3</span><span style="color: #000000;">);
+        </span><span style="color: #0000ff;">if</span>(a[<span style="color: #800080;">2</span>] &gt; n)<span style="color: #0000ff;">break</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">int</span> x = ask(a[<span style="color: #800080;">0</span>],a[<span style="color: #800080;">1</span>]),y = ask(a[<span style="color: #800080;">0</span>],a[<span style="color: #800080;">2</span><span style="color: #000000;">]);
+        </span><span style="color: #0000ff;">if</span>(x ==<span style="color: #000000;"> y)
+        {
+            st[a[</span><span style="color: #800080;">0</span>]] = <span style="color: #800080;">1</span><span style="color: #000000;">;
+            a[</span><span style="color: #800080;">0</span>] = a[<span style="color: #800080;">2</span>] + <span style="color: #800080;">1</span><span style="color: #000000;">;
+        }</span><span style="color: #0000ff;">else</span> <span style="color: #0000ff;">if</span>(x &lt;<span style="color: #000000;"> y)
+        {
+            st[a[</span><span style="color: #800080;">1</span>]] = <span style="color: #800080;">1</span><span style="color: #000000;">;
+            a[</span><span style="color: #800080;">1</span>] = a[<span style="color: #800080;">2</span>] + <span style="color: #800080;">1</span><span style="color: #000000;">;
+        }</span><span style="color: #0000ff;">else</span><span style="color: #000000;">{
+            st[a[</span><span style="color: #800080;">2</span>]] = <span style="color: #800080;">1</span><span style="color: #000000;">;
+            a[</span><span style="color: #800080;">2</span>] = a[<span style="color: #800080;">2</span>] + <span style="color: #800080;">1</span><span style="color: #000000;">;
+        }
+    }
+
+    cout </span>&lt;&lt; <span style="color: #800000;">"</span><span style="color: #800000;">! </span><span style="color: #800000;">"</span> &lt;&lt; a[<span style="color: #800080;">0</span>] &lt;&lt; <span style="color: #800000;">"</span> <span style="color: #800000;">"</span> &lt;&lt; a[<span style="color: #800080;">1</span>] &lt;&lt;<span style="color: #000000;"> endl;
+    </span><span style="color: #0000ff;">int</span> t;cin &gt;&gt;<span style="color: #000000;"> t;
+}
+
+signed main()
+{
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    </span><span style="color: #008000;">*/</span>
+    <span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;cin &gt;&gt;<span style="color: #000000;"> T;
+    </span><span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+</div>
+</div>
+</div>
+</div>

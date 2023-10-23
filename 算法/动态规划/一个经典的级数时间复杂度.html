@@ -1,0 +1,99 @@
+<ul>
+<li><a href="https://codeforces.com/contest/632/problem/D">Problem - D - Codeforces</a></li>
+</ul>
+<hr />
+<p>要点：</p>
+<p>for i (1 to n) i ++;for j(i to n) j += i;</p>
+<p>这个的时间复杂度是O(nlogn)</p>
+<hr />
+<p>题意：</p>
+<ul>
+<li>给一个长度为n的子数组a，找出最长的子序列最大公因数不超过m</li>
+</ul>
+<hr />
+<p>解发：</p>
+<ul>
+<li>观察n，m的范围（1e6），那么最大公因数必然在这之内</li>
+<li>定义f[i]表示以 i 作为倍数的数量，那么枚举不重复的数字，状态计算通过上面<strong>要点</strong>算出来</li>
+<li>f中最大的就是最小公倍数和对应的数量，是答案之一</li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+
+<span style="color: #0000ff;">#define</span> int long long
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 1e6+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> a[N];
+vector</span>&lt;<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> idx[N];
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> f[N];
+
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    </span><span style="color: #0000ff;">int</span> n,m;cin &gt;&gt; n &gt;&gt;<span style="color: #000000;"> m;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        cin </span>&gt;&gt;<span style="color: #000000;"> a[i];
+        </span><span style="color: #0000ff;">if</span>(a[i] &lt;=<span style="color: #000000;"> m)
+        {
+            idx[a[i]].push_back(i);
+        }
+    }
+    
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= m;i ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> j = i;j &lt;= m;j +=<span style="color: #000000;"> i)
+        {
+            f[j] </span>+=<span style="color: #000000;"> idx[i].size();
+        }
+    }
+
+    </span><span style="color: #0000ff;">int</span> tar = max_element(f + <span style="color: #800080;">1</span>,f + <span style="color: #800080;">1</span> + m) -<span style="color: #000000;"> f;
+    cout </span>&lt;&lt; tar &lt;&lt; <span style="color: #800000;">"</span> <span style="color: #800000;">"</span> &lt;&lt; f[tar] &lt;&lt;<span style="color: #000000;"> endl;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">if</span>(tar % a[i] == <span style="color: #800080;">0</span><span style="color: #000000;">)
+        {
+            cout </span>&lt;&lt; i &lt;&lt; <span style="color: #800000;">"</span> <span style="color: #800000;">"</span><span style="color: #000000;">;
+        }
+    }
+
+}
+
+signed main()
+{
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    </span><span style="color: #008000;">*/</span>
+    <span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">cin &gt;&gt; T;</span>
+    <span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

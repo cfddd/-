@@ -1,0 +1,78 @@
+<p>https://codeforces.com/contest/1770/attachments/download/18470/editorial.pdf</p>
+<p>这个pdf都写得很明白了，这个c题终于懂了，麻了&agrave;$a_i^j \leq b^j$</p>
+<p>本来只需要枚举n/2之内的质数，但是因为n很小，所以直接枚举n/2也可以</p>
+<ul>
+<li>对于给定的 $x$，让我们记 $b_i = a_i + x$。条件「 $gcd(b_i,b_j) = 1$对于 恒成 $1 \leq i &lt; j \leq n$立」等价于「每个质数 $p$ 只能整除至多一个 $b_i$」。那么，对于一个质数 &nbsp;$p$，我们能否判断&nbsp;$p$， 是否总是整除至少两个 $b_i$（无论$x$的取值）</li>
+</ul>
+<p>点通我的就是这句话</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:cpp;gutter:true;">#include&lt;bits/stdc++.h&gt;
+#define debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+#define debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+#define debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+#define debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+#define debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+#define debug0(x) cout &lt;&lt; "debug0: " &lt;&lt; x &lt;&lt; endl
+#define fr(t, i, n)for (long long i = t; i &lt; n; i++)
+#define YES cout&lt;&lt;"Yes"&lt;&lt;endl
+#define nO cout&lt;&lt;"no"&lt;&lt;endl
+#define fi first
+#define se second
+#define int long long
+using namespace std;
+
+typedef long long LL;
+typedef unsigned long long ULL;
+typedef pair&lt;int,int&gt; PII;
+typedef pair&lt;LL,LL&gt; PLL;
+
+//#pragma GCC optimize(3,"Ofast","inline")
+//#pragma GCC optimize(2)
+
+const int N = 110;
+
+int a[N];
+bool solve() 
+{
+    int n;cin &gt;&gt; n;
+    for(int i = 0;i &lt; n;i ++)cin &gt;&gt; a[i];
+    sort(a,a+n);
+
+    for(int i = 1;i &lt; n;i ++)
+        if(a[i] == a[i-1])
+        {
+            return 0;
+        }
+    
+    
+    bool acc = 1;
+    for(int i = 2;i &lt;= n;i ++)
+    {
+        vector&lt;int&gt; num(i,0);
+        for(int j = 0;j &lt; n;j ++)num[a[j] % i]++;
+        if(*min_element(num.begin(),num.end()) &gt;= 2)acc = 0;
+    }
+    return acc;
+    
+}
+
+signed main()
+{
+    /*
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    */
+    int T = 1;cin &gt;&gt; T;
+	
+    while(T--){
+        puts(solve()?"YES":"NO");
+    }
+    return 0;
+}
+/*
+
+*/
+</pre>
+</div>
+<p>　　</p>

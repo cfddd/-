@@ -1,0 +1,99 @@
+<ul>
+<li><a href="https://codeforces.com/contest/1721/problem/D">Problem - D - Codeforces</a></li>
+</ul>
+<p>题意：</p>
+<ul>
+<li>给两个长度为n的数组a，b，改变b的顺序，使得$(a_i&amp;^&amp;b_i)$&amp;$(a_i&amp;^&amp;b_i)$最大</li>
+</ul>
+<hr />
+<p>&nbsp;</p>
+<p>分析：</p>
+<ul>
+<li>从高位往低位贪心</li>
+<li>如果当前一位a中1的数量和b中0的数量相当，那么说明这一位可以取得</li>
+<li>然后把a=1，b=0和a=0，b=1分治，再次重复这个操作</li>
+<li>每一块分治都必须满足这个条件才能答案加上这一位2进制</li>
+</ul>
+<hr />
+<p>&nbsp;</p>
+<p>技巧：</p>
+<ul>
+<li>用二进制分治，通过已经有的ans取出a[i]和b[i]的对应位，容易发现，保留的信息让不同块计算出来的数字高位肯定不同，实现了分治</li>
+<li>核心代码 ` cnt[a[i]&amp;ans] ++;<em id="__mceDel">cnt[~b[i]&amp;ans] --;`</em></li>
+</ul>
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+
+<span style="color: #008000;">//</span><span style="color: #008000;">#define int long long</span>
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">常数定义</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">double</span> eps = 1e-<span style="color: #800080;">4</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">const</span> <span style="color: #0000ff;">double</span> PI = acos(-<span style="color: #800080;">1.0</span><span style="color: #000000;">);
+</span><span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 1e5+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> a[N],b[N];
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    </span><span style="color: #0000ff;">int</span> n;cin &gt;&gt;<span style="color: #000000;"> n;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++)cin &gt;&gt;<span style="color: #000000;"> a[i];
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++)cin &gt;&gt;<span style="color: #000000;"> b[i];
+    
+    </span><span style="color: #0000ff;">int</span> ans = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> k = <span style="color: #800080;">30</span>;k &gt;= <span style="color: #800080;">0</span>;k --<span style="color: #000000;">)
+    {
+        map</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> cnt;
+        ans </span>+= <span style="color: #800080;">1</span>&lt;&lt;<span style="color: #000000;">k;
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">1</span>;i &lt;= n;i ++<span style="color: #000000;">)
+        {
+            cnt[a[i]</span>&amp;ans] ++<span style="color: #000000;">;
+            cnt[</span>~b[i]&amp;ans] --<span style="color: #000000;">;
+        }
+        </span><span style="color: #0000ff;">for</span>(auto &amp;[x,y]:cnt)<span style="color: #0000ff;">if</span><span style="color: #000000;">(y)
+        {
+            ans </span>-= <span style="color: #800080;">1</span>&lt;&lt;<span style="color: #000000;">k;
+            </span><span style="color: #0000ff;">break</span><span style="color: #000000;">;
+        }
+    }
+    </span><span style="color: #0000ff;">int</span> t = <span style="color: #800080;">1</span><span style="color: #000000;">;
+    cout </span>&lt;&lt; (~t) &lt;&lt;<span style="color: #000000;"> endl;
+    cout </span>&lt;&lt; ans &lt;&lt;<span style="color: #000000;"> endl;
+}
+
+signed main()
+{
+    
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    </span><span style="color: #008000;">*/</span>
+    <span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;cin &gt;&gt;<span style="color: #000000;"> T;
+
+    </span><span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

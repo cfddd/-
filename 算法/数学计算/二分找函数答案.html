@@ -1,0 +1,50 @@
+<p><img src="https://img2023.cnblogs.com/blog/2740326/202301/2740326-20230119144148304-1750072810.png" alt="" loading="lazy" /></p>
+<p>&nbsp;</p>
+<ul>
+<li>&nbsp;<a href="https://ac.nowcoder.com/acm/contest/46810/E">E-Tokitsukaze and Function_2023牛客寒假算法基础集训营2 (nowcoder.com)</a></li>
+</ul>
+<hr />
+<p>思路：</p>
+<ul>
+<li>可以知道这是一个凹型函数，但是不是严格中间小于两边</li>
+<li>可以三分</li>
+</ul>
+<p>&nbsp;</p>
+<hr />
+<p>&nbsp;</p>
+<ul>
+<li>也可以转化成二分来写</li>
+</ul>
+<div class="cnblogs_code">
+<pre></pre>
+<div>
+<div>int n,L,R;</div>
+<br />
+<div>inline double f(int x)</div>
+<div>{</div>
+<div>&nbsp; &nbsp; return n/x + x - 1;</div>
+<div>}</div>
+
+<br />
+<div>void solve() </div>
+<div>{</div>
+<div>&nbsp; &nbsp; cin &gt;&gt; n &gt;&gt; L &gt;&gt; R;</div>
+
+<br />
+<div>&nbsp; &nbsp; int ans = f(L) &lt; f(R)?L:R;</div>
+<div>&nbsp; &nbsp; int minn = f(sqrt(n) + 1) &gt; f(sqrt(n))?sqrt(n):sqrt(n) + 1;</div>
+<div>&nbsp; &nbsp; if(minn &gt;= L &amp;&amp; minn &lt;= R &amp;&amp; f(ans) &gt; f(minn))ans = minn;</div>
+
+<br />
+<div>&nbsp; &nbsp; int lo = L,hi = ans;</div>
+<div>&nbsp; &nbsp; while(lo &lt; hi)</div>
+<div>&nbsp; &nbsp; {</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; int mid = lo + hi &gt;&gt; 1;</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; if(f(mid) == f(ans))hi = mid;</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; else lo = mid + 1;</div>
+<div>&nbsp; &nbsp; }</div>
+<div>&nbsp; &nbsp; cout &lt;&lt; lo &lt;&lt; endl;</div>
+<div>}</div>
+</div>
+</div>
+<p>&nbsp;</p>

@@ -1,0 +1,111 @@
+<ul>
+<li>https://codeforces.com/contest/702/problem/E</li>
+</ul>
+<hr />
+<p>题意：</p>
+<ul>
+<li>给一个n个点，n条有向边，n个权值的图，每个点一条出边</li>
+<li>问所有的点按着有向边走k的权值和，还有k条边上的最小权值是多少，并输出</li>
+</ul>
+<hr />
+<p>思路：</p>
+<ul>
+<li>经典的倍增题目</li>
+<li>先利用倍增找出子$2^p$的子节点是哪个，记为$ne[i][p]$</li>
+<li>然后就可以记$sum[i][p]，minn[i][p]$为子$2^p$步的权值和，和最小权值</li>
+<li>最后就是对$k$二进制从低位到高位分解</li>
+<li>具体倍增就是$ne[i][p] = ne[ne[i][p-1]][p-1]$（从低往高递推），其他两个同理</li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #0000ff;">#define</span> fi first
+<span style="color: #0000ff;">#define</span> se second
+
+<span style="color: #0000ff;">#define</span> int long long
+<span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+
+typedef </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+typedef unsigned </span><span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+typedef pair</span>&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+typedef pair</span>&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)</span>
+<span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 1e5+<span style="color: #800080;">10</span>,P = <span style="color: #800080;">35</span><span style="color: #000000;">;
+
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> edge[N],w[N];
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> ne[N][P];
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> minn[N][P],sum[N][P];
+
+</span><span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+{
+    </span><span style="color: #0000ff;">int</span> n,k;cin &gt;&gt; n &gt;&gt;<span style="color: #000000;"> k;
+
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+        cin </span>&gt;&gt;<span style="color: #000000;"> edge[i];
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+        cin </span>&gt;&gt;<span style="color: #000000;"> w[i];
+    
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> p = <span style="color: #800080;">0</span>;p &lt; P;p ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+        {
+            </span><span style="color: #0000ff;">if</span>(p) ne[i][p] = ne[ne[i][p-<span style="color: #800080;">1</span>]][p-<span style="color: #800080;">1</span><span style="color: #000000;">];
+            </span><span style="color: #0000ff;">else</span> ne[i][p] =<span style="color: #000000;"> edge[i];
+        }
+    }
+
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> p = <span style="color: #800080;">0</span>;p &lt; P;p ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+        {
+            </span><span style="color: #0000ff;">if</span><span style="color: #000000;">(p) 
+            {
+                sum[i][p] </span>= sum[i][p-<span style="color: #800080;">1</span>] + sum[ne[i][p-<span style="color: #800080;">1</span>]][p-<span style="color: #800080;">1</span><span style="color: #000000;">];
+                minn[i][p] </span>= min(minn[i][p-<span style="color: #800080;">1</span>],minn[ne[i][p-<span style="color: #800080;">1</span>]][p-<span style="color: #800080;">1</span><span style="color: #000000;">]);
+            }
+            </span><span style="color: #0000ff;">else</span> sum[i][p] = minn[i][p] =<span style="color: #000000;"> w[i];
+        }
+    }
+
+    </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">int</span> res_sum = <span style="color: #800080;">0</span>,res_minn =<span style="color: #000000;"> 1e9;
+        </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> start = i,j = <span style="color: #800080;">0</span>;j &lt; P;j ++)<span style="color: #0000ff;">if</span>(k &gt;&gt; j &amp; <span style="color: #800080;">1</span><span style="color: #000000;">)
+        {
+            res_sum </span>+=<span style="color: #000000;"> sum[start][j];
+            res_minn </span>=<span style="color: #000000;"> min(res_minn,minn[start][j]);
+            start </span>=<span style="color: #000000;"> ne[start][j];
+        }
+        cout </span>&lt;&lt; res_sum &lt;&lt; <span style="color: #800000;">"</span> <span style="color: #800000;">"</span> &lt;&lt; res_minn &lt;&lt;<span style="color: #000000;"> endl;
+    }
+}
+
+signed main()
+{
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    </span><span style="color: #008000;">*/</span>
+    <span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">cin &gt;&gt; T;</span>
+
+    <span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #000000;">        solve();
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+
+}
+</span><span style="color: #008000;">/*</span>
+
+<span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>

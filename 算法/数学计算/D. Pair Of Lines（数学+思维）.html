@@ -1,0 +1,216 @@
+<ul>
+<li><a href="https://codeforces.com/contest/961/problem/D">Problem - D - Codeforces</a></li>
+</ul>
+<hr />
+<p>题意：</p>
+<ul>
+<li>给n个点，判断这个n个点是否能用不多于两条直线全覆盖</li>
+</ul>
+<hr />
+<p>思路：</p>
+<ul>
+<li>如果只有不到三个点，那么直接返回&rdquo;YES&ldquo;</li>
+<li>否则，显然任意挑三个点，这三个点有两种情况</li>
+<ul>
+<li>三个点重合，在一条直线上<br />显然这三个点需要用掉一条边，只需要查看剩下来的点能不能只在一条边上</li>
+<li>三个点组成一个三角形，与上同理，至少用掉两条边来满足这个三角形的覆盖<br />所以判断三种可能是否还有剩余的的点未被覆盖，返回结果</li>
+</ul>
+<li>用计算几何板子需要调整eps精度，开long double（因为点很大）</li>
+</ul>
+<hr />
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">  1</span> #include&lt;bits/stdc++.h&gt;
+<span style="color: #008080;">  2</span> <span style="color: #0000ff;">#define</span> debug1(a) cout&lt;&lt;#a&lt;&lt;'='&lt;&lt; a &lt;&lt; endl;
+<span style="color: #008080;">  3</span> <span style="color: #0000ff;">#define</span> debug2(a,b) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;endl;
+<span style="color: #008080;">  4</span> <span style="color: #0000ff;">#define</span> debug3(a,b,c) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;endl;
+<span style="color: #008080;">  5</span> <span style="color: #0000ff;">#define</span> debug4(a,b,c,d) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;endl;
+<span style="color: #008080;">  6</span> <span style="color: #0000ff;">#define</span> debug5(a,b,c,d,e) cout&lt;&lt;#a&lt;&lt;" = "&lt;&lt;a&lt;&lt;"  "&lt;&lt;#b&lt;&lt;" = "&lt;&lt;b&lt;&lt;"  "&lt;&lt;#c&lt;&lt;" = "&lt;&lt;c&lt;&lt;"  "&lt;&lt;#d&lt;&lt;" = "&lt;&lt;d&lt;&lt;"  "&lt;&lt;#e&lt;&lt;" = "&lt;&lt;e&lt;&lt;endl;
+<span style="color: #008080;">  7</span> <span style="color: #0000ff;">#define</span> endl "\n"
+<span style="color: #008080;">  8</span> <span style="color: #0000ff;">#define</span> fi first
+<span style="color: #008080;">  9</span> <span style="color: #0000ff;">#define</span> se second
+<span style="color: #008080;"> 10</span> 
+<span style="color: #008080;"> 11</span> <span style="color: #0000ff;">#define</span> int long long
+<span style="color: #008080;"> 12</span> <span style="color: #008000;">//</span><span style="color: #008000;">#define double long double
+</span><span style="color: #008080;"> 13</span> <span style="color: #008000;">//</span><span style="color: #008000;">#define int __int128</span>
+<span style="color: #008080;"> 14</span> <span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+</span><span style="color: #008080;"> 15</span> 
+<span style="color: #008080;"> 16</span> typedef <span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> LL;
+</span><span style="color: #008080;"> 17</span> typedef unsigned <span style="color: #0000ff;">long</span> <span style="color: #0000ff;">long</span><span style="color: #000000;"> ULL;
+</span><span style="color: #008080;"> 18</span> typedef pair&lt;<span style="color: #0000ff;">int</span>,<span style="color: #0000ff;">int</span>&gt;<span style="color: #000000;"> PII;
+</span><span style="color: #008080;"> 19</span> typedef pair&lt;LL,LL&gt;<span style="color: #000000;"> PLL;
+</span><span style="color: #008080;"> 20</span> 
+<span style="color: #008080;"> 21</span> <span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(3,"Ofast","inline")
+</span><span style="color: #008080;"> 22</span> <span style="color: #008000;">//</span><span style="color: #008000;">#pragma GCC optimize(2)
+</span><span style="color: #008080;"> 23</span> 
+<span style="color: #008080;"> 24</span> <span style="color: #008000;">//</span><span style="color: #008000;">常数定义</span>
+<span style="color: #008080;"> 25</span> <span style="color: #0000ff;">const</span> <span style="color: #0000ff;">double</span> eps = 1e-<span style="color: #800080;">10</span>;<span style="color: #008000;">//</span><span style="color: #008000;">根据需要调整</span>
+<span style="color: #008080;"> 26</span> <span style="color: #0000ff;">const</span> <span style="color: #0000ff;">double</span> PI = acos(-<span style="color: #800080;">1.0</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 27</span> <span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> INF = <span style="color: #800080;">0x3f3f3f3f</span><span style="color: #000000;">;
+</span><span style="color: #008080;"> 28</span> <span style="color: #0000ff;">const</span> <span style="color: #0000ff;">int</span> N = 1e5+<span style="color: #800080;">10</span><span style="color: #000000;">;
+</span><span style="color: #008080;"> 29</span> <span style="color: #0000ff;">int</span> sgn(<span style="color: #0000ff;">double</span> x)<span style="color: #008000;">//</span><span style="color: #008000;">符号函数，eps使用最多的地方</span>
+<span style="color: #008080;"> 30</span> <span style="color: #000000;">{
+</span><span style="color: #008080;"> 31</span>     <span style="color: #0000ff;">if</span> (fabs(x) &lt;<span style="color: #000000;"> eps)
+</span><span style="color: #008080;"> 32</span>         <span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;"> 33</span>     <span style="color: #0000ff;">if</span> (x &lt; <span style="color: #800080;">0</span><span style="color: #000000;">)
+</span><span style="color: #008080;"> 34</span>         <span style="color: #0000ff;">return</span> -<span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;"> 35</span>     <span style="color: #0000ff;">else</span>
+<span style="color: #008080;"> 36</span>         <span style="color: #0000ff;">return</span> <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;"> 37</span> <span style="color: #000000;">}
+</span><span style="color: #008080;"> 38</span> 
+<span style="color: #008080;"> 39</span> <span style="color: #008000;">//</span><span style="color: #008000;">点类及其相关操作</span>
+<span style="color: #008080;"> 40</span> <span style="color: #0000ff;">struct</span><span style="color: #000000;"> Point
+</span><span style="color: #008080;"> 41</span> <span style="color: #000000;">{
+</span><span style="color: #008080;"> 42</span>     <span style="color: #0000ff;">double</span><span style="color: #000000;"> x, y;
+</span><span style="color: #008080;"> 43</span> <span style="color: #000000;">    Point() {}
+</span><span style="color: #008080;"> 44</span>     Point(<span style="color: #0000ff;">double</span> _x, <span style="color: #0000ff;">double</span><span style="color: #000000;"> _y) : x(_x), y(_y) {}
+</span><span style="color: #008080;"> 45</span>     Point <span style="color: #0000ff;">operator</span>-(<span style="color: #0000ff;">const</span> Point &amp;b) <span style="color: #0000ff;">const</span> { <span style="color: #0000ff;">return</span> Point(x - b.x, y -<span style="color: #000000;"> b.y); }
+</span><span style="color: #008080;"> 46</span>     Point <span style="color: #0000ff;">operator</span>+(<span style="color: #0000ff;">const</span> Point &amp;b) <span style="color: #0000ff;">const</span> { <span style="color: #0000ff;">return</span> Point(x + b.x, y +<span style="color: #000000;"> b.y); }
+</span><span style="color: #008080;"> 47</span> 
+<span style="color: #008080;"> 48</span>     <span style="color: #0000ff;">double</span> <span style="color: #0000ff;">operator</span>^(<span style="color: #0000ff;">const</span> Point &amp;b) <span style="color: #0000ff;">const</span> { <span style="color: #0000ff;">return</span> x * b.y - y * b.x; } <span style="color: #008000;">//</span><span style="color: #008000;">叉积</span>
+<span style="color: #008080;"> 49</span>     <span style="color: #0000ff;">double</span> <span style="color: #0000ff;">operator</span>*(<span style="color: #0000ff;">const</span> Point &amp;b) <span style="color: #0000ff;">const</span> { <span style="color: #0000ff;">return</span> x * b.x + y * b.y; } <span style="color: #008000;">//</span><span style="color: #008000;">点积</span>
+<span style="color: #008080;"> 50</span> 
+<span style="color: #008080;"> 51</span>     <span style="color: #0000ff;">bool</span> <span style="color: #0000ff;">operator</span>&lt;(<span style="color: #0000ff;">const</span> Point &amp;b) <span style="color: #0000ff;">const</span> { <span style="color: #0000ff;">return</span> x &lt; b.x || (x == b.x &amp;&amp; y &lt;<span style="color: #000000;"> b.y); }
+</span><span style="color: #008080;"> 52</span>     <span style="color: #0000ff;">bool</span> <span style="color: #0000ff;">operator</span>==(<span style="color: #0000ff;">const</span> Point &amp;b) <span style="color: #0000ff;">const</span> { <span style="color: #0000ff;">return</span> sgn(x - b.x) == <span style="color: #800080;">0</span> &amp;&amp; sgn(y - b.y) == <span style="color: #800080;">0</span><span style="color: #000000;">; }
+</span><span style="color: #008080;"> 53</span> 
+<span style="color: #008080;"> 54</span>     Point Rotate(<span style="color: #0000ff;">double</span> B, Point P) <span style="color: #008000;">//</span><span style="color: #008000;">绕着点P，逆时针旋转角度B(弧度)</span>
+<span style="color: #008080;"> 55</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;"> 56</span> <span style="color: #000000;">        Point tmp;
+</span><span style="color: #008080;"> 57</span>         tmp.x = (x - P.x) * cos(B) - (y - P.y) * sin(B) +<span style="color: #000000;"> P.x;
+</span><span style="color: #008080;"> 58</span>         tmp.y = (x - P.x) * sin(B) + (y - P.y) * cos(B) +<span style="color: #000000;"> P.y;
+</span><span style="color: #008080;"> 59</span>         <span style="color: #0000ff;">return</span><span style="color: #000000;"> tmp;
+</span><span style="color: #008080;"> 60</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;"> 61</span> <span style="color: #000000;">};
+</span><span style="color: #008080;"> 62</span> 
+<span style="color: #008080;"> 63</span> <span style="color: #0000ff;">double</span> dist(Point a, Point b) { <span style="color: #0000ff;">return</span> sqrt((a - b) * (a - b)); } <span style="color: #008000;">//</span><span style="color: #008000;">两点间距离</span>
+<span style="color: #008080;"> 64</span> <span style="color: #0000ff;">double</span> len(Point a){<span style="color: #0000ff;">return</span> sqrt(a.x * a.x + a.y * a.y);}<span style="color: #008000;">//</span><span style="color: #008000;">向量的长度</span>
+<span style="color: #008080;"> 65</span> 
+<span style="color: #008080;"> 66</span> <span style="color: #0000ff;">struct</span><span style="color: #000000;"> Line
+</span><span style="color: #008080;"> 67</span> <span style="color: #000000;">{
+</span><span style="color: #008080;"> 68</span> <span style="color: #000000;">    Point s, e;
+</span><span style="color: #008080;"> 69</span> <span style="color: #000000;">    Line() {}
+</span><span style="color: #008080;"> 70</span> <span style="color: #000000;">    Line(Point _s, Point _e) : s(_s), e(_e) {}
+</span><span style="color: #008080;"> 71</span> 
+<span style="color: #008080;"> 72</span>     <span style="color: #008000;">//</span><span style="color: #008000;">两直线相交求交点
+</span><span style="color: #008080;"> 73</span>     <span style="color: #008000;">//</span><span style="color: #008000;">第一个值为0表示直线重合，为1表示平行,为2是相交
+</span><span style="color: #008080;"> 74</span>     <span style="color: #008000;">//</span><span style="color: #008000;">只有第一个值为2时，交点才有意义</span>
+<span style="color: #008080;"> 75</span> 
+<span style="color: #008080;"> 76</span>     pair&lt;<span style="color: #0000ff;">int</span>, Point&gt; <span style="color: #0000ff;">operator</span>&amp;(<span style="color: #0000ff;">const</span> Line &amp;b) <span style="color: #0000ff;">const</span>
+<span style="color: #008080;"> 77</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;"> 78</span>         Point res =<span style="color: #000000;"> s;
+</span><span style="color: #008080;"> 79</span>         <span style="color: #0000ff;">if</span> (sgn((s - e) ^ (b.s - b.e)) == <span style="color: #800080;">0</span><span style="color: #000000;">)
+</span><span style="color: #008080;"> 80</span> <span style="color: #000000;">        {
+</span><span style="color: #008080;"> 81</span>             <span style="color: #0000ff;">if</span> (sgn((s - b.e) ^ (b.s - b.e)) == <span style="color: #800080;">0</span><span style="color: #000000;">)
+</span><span style="color: #008080;"> 82</span>                 <span style="color: #0000ff;">return</span> make_pair(<span style="color: #800080;">0</span>, res); <span style="color: #008000;">//</span><span style="color: #008000;">重合</span>
+<span style="color: #008080;"> 83</span>             <span style="color: #0000ff;">else</span>
+<span style="color: #008080;"> 84</span>                 <span style="color: #0000ff;">return</span> make_pair(<span style="color: #800080;">1</span>, res); <span style="color: #008000;">//</span><span style="color: #008000;">平行</span>
+<span style="color: #008080;"> 85</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;"> 86</span>         <span style="color: #0000ff;">double</span> t = ((s - b.s) ^ (b.s - b.e)) / ((s - e) ^ (b.s -<span style="color: #000000;"> b.e));
+</span><span style="color: #008080;"> 87</span>         res.x += (e.x - s.x) *<span style="color: #000000;"> t;
+</span><span style="color: #008080;"> 88</span>         res.y += (e.y - s.y) *<span style="color: #000000;"> t;
+</span><span style="color: #008080;"> 89</span>         <span style="color: #0000ff;">return</span> make_pair(<span style="color: #800080;">2</span><span style="color: #000000;">, res);
+</span><span style="color: #008080;"> 90</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;"> 91</span> <span style="color: #000000;">};
+</span><span style="color: #008080;"> 92</span> 
+<span style="color: #008080;"> 93</span> <span style="color: #008000;">//</span><span style="color: #008000;">*判断点在直线上的垂点</span>
+<span style="color: #008080;"> 94</span> <span style="color: #000000;">Point PointToLine(Point P, Line L)
+</span><span style="color: #008080;"> 95</span> <span style="color: #000000;">{
+</span><span style="color: #008080;"> 96</span> <span style="color: #000000;">    Point result;
+</span><span style="color: #008080;"> 97</span>     <span style="color: #0000ff;">double</span> t = ((P - L.s) * (L.e - L.s)) / ((L.e - L.s) * (L.e -<span style="color: #000000;"> L.s));
+</span><span style="color: #008080;"> 98</span>     result.x = L.s.x + (L.e.x - L.s.x) *<span style="color: #000000;"> t;
+</span><span style="color: #008080;"> 99</span>     result.y = L.s.y + (L.e.y - L.s.y) *<span style="color: #000000;"> t;
+</span><span style="color: #008080;">100</span>     <span style="color: #0000ff;">return</span><span style="color: #000000;"> result;
+</span><span style="color: #008080;">101</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">102</span> 
+<span style="color: #008080;">103</span> <span style="color: #0000ff;">bool</span><span style="color: #000000;"> used[N];
+</span><span style="color: #008080;">104</span> <span style="color: #000000;">Point points[N];
+</span><span style="color: #008080;">105</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> n;
+</span><span style="color: #008080;">106</span> <span style="color: #0000ff;">bool</span><span style="color: #000000;"> check(Line a)
+</span><span style="color: #008080;">107</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">108</span>     <span style="color: #008000;">//</span><span style="color: #008000;">debug1((PointToLine(points[4],a) == points[4]));</span>
+<span style="color: #008080;">109</span>     memset(used, <span style="color: #800080;">0</span>, <span style="color: #0000ff;">sizeof</span><span style="color: #000000;">(used));
+</span><span style="color: #008080;">110</span> 
+<span style="color: #008080;">111</span>     <span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+</span><span style="color: #008080;">112</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">113</span>         <span style="color: #0000ff;">if</span>(PointToLine(points[i],a) == points[i])used[i] = <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;">114</span>         <span style="color: #0000ff;">else</span> used[i] = <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">115</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">116</span> 
+<span style="color: #008080;">117</span>     <span style="color: #0000ff;">int</span> cnt = <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">118</span> <span style="color: #000000;">    Point t1,t2;
+</span><span style="color: #008080;">119</span>     
+<span style="color: #008080;">120</span>     <span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++)<span style="color: #0000ff;">if</span>(!<span style="color: #000000;">used[i])
+</span><span style="color: #008080;">121</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">122</span>         <span style="color: #008000;">//</span><span style="color: #008000;">debug2("re",i);</span>
+<span style="color: #008080;">123</span>         cnt ++<span style="color: #000000;">;
+</span><span style="color: #008080;">124</span>         <span style="color: #0000ff;">if</span>(cnt == <span style="color: #800080;">2</span><span style="color: #000000;">)
+</span><span style="color: #008080;">125</span> <span style="color: #000000;">        {
+</span><span style="color: #008080;">126</span>             t2 =<span style="color: #000000;"> points[i];
+</span><span style="color: #008080;">127</span>             <span style="color: #0000ff;">break</span><span style="color: #000000;">;
+</span><span style="color: #008080;">128</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;">129</span>         t1 =<span style="color: #000000;"> points[i];
+</span><span style="color: #008080;">130</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">131</span> 
+<span style="color: #008080;">132</span>     
+<span style="color: #008080;">133</span>     <span style="color: #0000ff;">if</span>(cnt &lt; <span style="color: #800080;">2</span>)<span style="color: #0000ff;">return</span> <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;">134</span>     <span style="color: #0000ff;">else</span><span style="color: #000000;">{
+</span><span style="color: #008080;">135</span> <span style="color: #000000;">        Line remainder_line(t1,t2);
+</span><span style="color: #008080;">136</span>         <span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++)<span style="color: #0000ff;">if</span>(!<span style="color: #000000;">used[i])
+</span><span style="color: #008080;">137</span> <span style="color: #000000;">        {
+</span><span style="color: #008080;">138</span>             <span style="color: #0000ff;">if</span>(PointToLine(points[i],remainder_line) == points[i]) used[i] = <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;">139</span>             <span style="color: #0000ff;">else</span> <span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">140</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;">141</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">142</span>     <span style="color: #0000ff;">return</span> <span style="color: #800080;">1</span><span style="color: #000000;">;
+</span><span style="color: #008080;">143</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">144</span> 
+<span style="color: #008080;">145</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> solve() 
+</span><span style="color: #008080;">146</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">147</span>     cin &gt;&gt;<span style="color: #000000;"> n;
+</span><span style="color: #008080;">148</span>     <span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = <span style="color: #800080;">0</span>;i &lt; n;i ++<span style="color: #000000;">)
+</span><span style="color: #008080;">149</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">150</span>         <span style="color: #0000ff;">int</span> x,y;cin &gt;&gt; x;cin &gt;&gt;<span style="color: #000000;"> y;
+</span><span style="color: #008080;">151</span>         points[i].x = x; points[i].y =<span style="color: #000000;"> y;
+</span><span style="color: #008080;">152</span>         <span style="color: #008000;">//</span><span style="color: #008000;">debug2(points[i].x,points[i].y);</span>
+<span style="color: #008080;">153</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">154</span> 
+<span style="color: #008080;">155</span>     <span style="color: #0000ff;">if</span>(n &lt;= <span style="color: #800080;">3</span><span style="color: #000000;">)
+</span><span style="color: #008080;">156</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">157</span>         cout &lt;&lt; <span style="color: #800000;">"</span><span style="color: #800000;">YES</span><span style="color: #800000;">"</span> &lt;&lt;<span style="color: #000000;"> endl;
+</span><span style="color: #008080;">158</span>         <span style="color: #0000ff;">return</span><span style="color: #000000;"> ;
+</span><span style="color: #008080;">159</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">160</span> 
+<span style="color: #008080;">161</span>     Line l0(points[<span style="color: #800080;">0</span>],points[<span style="color: #800080;">1</span><span style="color: #000000;">]);
+</span><span style="color: #008080;">162</span>     Line l1(points[<span style="color: #800080;">1</span>],points[<span style="color: #800080;">2</span><span style="color: #000000;">]);
+</span><span style="color: #008080;">163</span>     Line l2(points[<span style="color: #800080;">0</span>],points[<span style="color: #800080;">2</span><span style="color: #000000;">]);
+</span><span style="color: #008080;">164</span> 
+<span style="color: #008080;">165</span>     <span style="color: #0000ff;">if</span>(check(l0) || check(l1) ||<span style="color: #000000;"> check(l2))
+</span><span style="color: #008080;">166</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">167</span>         cout &lt;&lt; <span style="color: #800000;">"</span><span style="color: #800000;">YES</span><span style="color: #800000;">"</span> &lt;&lt;<span style="color: #000000;"> endl;
+</span><span style="color: #008080;">168</span>     }<span style="color: #0000ff;">else</span><span style="color: #000000;">{
+</span><span style="color: #008080;">169</span>         cout &lt;&lt; <span style="color: #800000;">"</span><span style="color: #800000;">NO</span><span style="color: #800000;">"</span> &lt;&lt;<span style="color: #000000;"> endl;
+</span><span style="color: #008080;">170</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">171</span> 
+<span style="color: #008080;">172</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">173</span> 
+<span style="color: #008080;">174</span> <span style="color: #000000;">signed main()
+</span><span style="color: #008080;">175</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">176</span>     
+<span style="color: #008080;">177</span>     <span style="color: #008000;">/*</span>
+<span style="color: #008080;">178</span> <span style="color: #008000;">    ios::sync_with_stdio(false);
+</span><span style="color: #008080;">179</span> <span style="color: #008000;">    cin.tie(0);
+</span><span style="color: #008080;">180</span> <span style="color: #008000;">    cout.tie(0);
+</span><span style="color: #008080;">181</span>     <span style="color: #008000;">*/</span>
+<span style="color: #008080;">182</span>     <span style="color: #0000ff;">int</span> T = <span style="color: #800080;">1</span>;<span style="color: #008000;">//</span><span style="color: #008000;">cin &gt;&gt; T;</span>
+<span style="color: #008080;">183</span> 
+<span style="color: #008080;">184</span>     <span style="color: #0000ff;">while</span>(T--<span style="color: #000000;">){
+</span><span style="color: #008080;">185</span>         <span style="color: #008000;">//</span><span style="color: #008000;">puts(solve()?"YES":"NO");</span>
+<span style="color: #008080;">186</span> <span style="color: #000000;">        solve();
+</span><span style="color: #008080;">187</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">188</span>     <span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">189</span> 
+<span style="color: #008080;">190</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">191</span> <span style="color: #008000;">/*</span>
+<span style="color: #008080;">192</span> 
+<span style="color: #008080;">193</span> <span style="color: #008000;">*/</span></pre>
+</div>
+<p>&nbsp;</p>
