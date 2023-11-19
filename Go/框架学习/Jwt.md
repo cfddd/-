@@ -18,6 +18,7 @@ func (router RouterGroup) UserRouter() {
 如果没有登录，肯定是无法通过验证的。
 
 浏览器实现免密登录一般是直接通过在这个页面留下缓存，在下次访问时，自动提交当前用户登陆的信息，以快速访问某些api，免去登录的过程。
+更多的详细解释可以参考[理解Cookie和Session - Helldorado - 博客园 (cnblogs.com)](https://www.cnblogs.com/liyutian/p/10277817.html)
 
 回到登出这个话题，在登出后，token是不会改变的，这就需要一个能够快速常看某个token是否登出的功能。redis就恰好可以实现这个功能。
 

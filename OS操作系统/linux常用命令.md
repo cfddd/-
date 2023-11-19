@@ -300,3 +300,398 @@ ifconfig：查看网卡信息
 ```text
 命令：ctrl + l
 ```
+
+## 查看磁盘、内存使用情况
+1、df 显示磁盘分区上可以使用的磁盘空间
+显示指定磁盘文件的可用空间。如果没有文件名被指定，则所有当前被挂载的文件系统的可用空间将被显示。默认情况下，磁盘空间将以 1KB为单位进行显示，除非环境变量 POSIXLY_CORRECT 被指定，那样将以512字节为单位进行显示。
+
+使用方式
+
+df [选项] [文件]
+命令参数
+
+-a 列出所有的文件系统，包括系统特有的 /proc 等文件系统
+-k 以 KBytes 的容量显示各文件系统。命令 df -k 同命令 df
+-m 以 MBytes 的容量显示各文件系统
+-h 以人们较易阅读的 GBytes、MBytes、KBytes 等格式自行显示
+-H 等于“-h”，但是计算式，1K=1000，而不是1K=1024
+-i 不用磁盘容量，而以 inode 的数量来显示
+-l 只显示本地文件系统。命令 df -l 同命令 df
+--no-sync 忽略 sync 命令
+-P 输出格式为POSIX
+--sync 在取得磁盘信息前，先执行sync命令
+-T  连同该磁盘分区的文件系统名称（例如 xfs）也列出
+--block-size=<区块大小> 指定区块大小
+-t <文件系统类型> 只显示选定文件系统的磁盘信息
+-x <文件系统类型> 不显示选定文件系统的磁盘信息
+--help 显示帮助信息
+--version 显示版本信息
+
+使用实例
+实例1：显示磁盘使用情况
+
+[root@server1 ~]# df
+Filesystem            1K-blocks    Used Available Use% Mounted on
+/dev/mapper/rhel-root  17811456 1196004  16615452   7% /
+devtmpfs                 497216       0    497216   0% /dev
+tmpfs                    508188       0    508188   0% /dev/shm
+tmpfs                    508188    6736    501452   2% /run
+tmpfs                    508188       0    508188   0% /sys/fs/cgroup
+/dev/vda1               1038336  141508    896828  14% /boot
+tmpfs                    101640       0    101640   0% /run/user/0
+
+
+1、Filesystem：代表文件系统对应的设备文件的路径名（一般是硬盘上的分区）；
+
+2、1K-blocks：说明下面的数字单位是  1KB，可利用 -h 或 -m 来改变容量；
+
+3、Used：使用掉的磁盘空间；
+
+4、Available：也就是剩下的磁盘空间大小；用户也许会感到奇怪的是，第3，4列块数之和不等于第2列中的块数。这是因为缺省的每个分区都留了少量空间供系统管理员使用。即使遇到普通用户空间已满的情况，管理员仍能登录和留有解决问题所需的工作空间清单中；
+
+5、Use%：就是磁盘的使用率，如果使用率高达 90%  以上，最好注意一下，免得容量不足造成系统问题，例如最容易占满的  /var/spool/mail  这个保存邮件的目录；
+
+6、Mounted  on：就是磁盘的挂载目录（挂载点）。
+
+实例2：以inode模式来显示磁盘使用情况
+
+[root@server1 ~]# df -i
+Filesystem             Inodes IUsed   IFree IUse% Mounted on
+/dev/mapper/rhel-root 8910848 35051 8875797    1% /
+devtmpfs               124304   374  123930    1% /dev
+tmpfs                  127047     1  127046    1% /dev/shm
+tmpfs                  127047   410  126637    1% /run
+tmpfs                  127047    16  127031    1% /sys/fs/cgroup
+/dev/vda1              524288   328  523960    1% /boot
+tmpfs                  127047     1  127046    1% /run/user/0
+
+实例3：列出文件系统的类型
+
+[root@server1 ~]# df -T
+Filesystem            Type     1K-blocks    Used Available Use% Mounted on
+/dev/mapper/rhel-root xfs       17811456 1196004  16615452   7% /
+devtmpfs              devtmpfs    497216       0    497216   0% /dev
+tmpfs                 tmpfs       508188       0    508188   0% /dev/shm
+tmpfs                 tmpfs       508188    6740    501448   2% /run
+tmpfs                 tmpfs       508188       0    508188   0% /sys/fs/cgroup
+/dev/vda1             xfs        1038336  141508    896828  14% /boot
+tmpfs                 tmpfs       101640       0    101640   0% /run/user/0
+
+实例4：显示目前磁盘空间和使用情况 （最常用）
+
+[root@server1 ~]# df -h
+Filesystem             Size  Used Avail Use% Mounted on
+/dev/mapper/rhel-root   17G  1.2G   16G   7% /
+devtmpfs               486M     0  486M   0% /dev
+tmpfs                  497M     0  497M   0% /dev/shm
+tmpfs                  497M  6.6M  490M   2% /run
+tmpfs                  497M     0  497M   0% /sys/fs/cgroup
+/dev/vda1             1014M  139M  876M  14% /boot
+tmpfs                  100M     0  100M   0% /run/user/0
+ 
+ 
+[root@server1 ~]# df -H
+Filesystem             Size  Used Avail Use% Mounted on
+/dev/mapper/rhel-root   19G  1.3G   18G   7% /
+devtmpfs               510M     0  510M   0% /dev
+tmpfs                  521M     0  521M   0% /dev/shm
+tmpfs                  521M  7.0M  514M   2% /run
+tmpfs                  521M     0  521M   0% /sys/fs/cgroup
+/dev/vda1              1.1G  145M  919M  14% /boot
+tmpfs                  105M     0  105M   0% /run/user/0
+ 
+ 
+[root@server1 ~]# df -lh
+Filesystem             Size  Used Avail Use% Mounted on
+/dev/mapper/rhel-root   17G  1.2G   16G   7% /
+devtmpfs               486M     0  486M   0% /dev
+tmpfs                  497M     0  497M   0% /dev/shm
+tmpfs                  497M  6.6M  490M   2% /run
+tmpfs                  497M     0  497M   0% /sys/fs/cgroup
+/dev/vda1             1014M  139M  876M  14% /boot
+tmpfs                  100M     0  100M   0% /run/user/0
+ 
+ 
+[root@server1 ~]# df -k
+Filesystem            1K-blocks    Used Available Use% Mounted on
+/dev/mapper/rhel-root  17811456 1196004  16615452   7% /
+devtmpfs                 497216       0    497216   0% /dev
+tmpfs                    508188       0    508188   0% /dev/shm
+tmpfs                    508188    6740    501448   2% /run
+tmpfs                    508188       0    508188   0% /sys/fs/cgroup
+/dev/vda1               1038336  141508    896828  14% /boot
+tmpfs                    101640       0    101640   0% /run/user/0
+
+
+说明：
+
+-h更具目前磁盘空间和使用情况 以更易读的方式显示
+
+-H根上面的-h参数相同，不过在根式化的时候，采用1000而不是1024进行容量转换
+
+-k以单位显示磁盘的使用情况
+
+-l显示本地的分区的磁盘空间使用率，如果服务器nfs了远程服务器的磁盘，那么在df上加上-l后系统显示的是过滤nsf驱动器后的结果
+
+-i显示inode的使用情况。linux采用了类似指针的方式管理磁盘空间影射。这也是一个比较关键应用
+
+2、du 显示每个文件和目录的磁盘使用空间
+显示每个文件和目录的磁盘使用空间
+
+使用方式
+
+df [选项] [文件]
+1
+命令参数
+
+-a或-all  列出所you的文件与目录容量，因为默认仅统计目录下面的文件量  
+-b或-bytes  显示目录或文件大小时，以byte为单位。   
+-c或--total  除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
+-k或--kilobytes  以KB(1024bytes)为单位输出。
+-m或--megabytes  以MB为单位输出。   
+-s或--summarize  仅显示总量，只列出最后加总的值，而不列出每个个别的目录占用容量。
+-S或--separate-dirs   不包括子目录下的总计，与 -s 有点差别
+-h或--human-readable  以K，M，G为单位，提高信息的可读性。
+-x或--one-file-xystem  以一开始处理时的文件系统为准，若遇上其它不同的文件系统目录则略过。
+-L<符号链接>或--dereference<符号链接> 显示选项中所指定符号链接的源文件大小。   
+-X<文件>或--exclude-from=<文件>  在<文件>指定目录或文件。   
+--exclude=<目录或文件>         略过指定的目录或文件。    
+-D或--dereference-args   显示指定符号链接的源文件大小。   
+-H或--si  与-h参数相同，但是K，M，G是以1000为换算单位。   
+-l或--count-links   重复计算硬件链接的文件。   
+
+使用实例
+
+实例1：显示目录或者文件所占空间
+
+[root@server1 ~]# du
+48	./nginx-1.14.2/auto/cc
+...
+2468	./nginx-1.15.8/objs
+9464	./nginx-1.15.8
+20980	.
+ 
+说明：
+直接输入 du 没有加任何选项时，则 du 会分析【目前所在目录】的文件与目录所占用的磁盘空间。
+但是，实际显示时，仅显示目录容量（不含文件），因此（.）目录有很多文件没有列出来。
+所以全部的目录相加不会等于（.）的容量，此外，输出的数据为 1K 大小的容量单位
+
+实例2：显示指定文件所占空间
+
+[root@server1 ~]# du date.txt 
+4	date.txt
+
+实例3：查看指定目录的所占空间
+
+[root@server1 ~]# du nginx-1.14.2
+48	nginx-1.14.2/auto/cc
+...
+9348	nginx-1.14.2
+
+实例4：显示多个文件所占空间
+
+[root@server1 ~]# du nginx-1.14.2.tar.gz nginx-1.15.8.tar.gz 
+992	nginx-1.14.2.tar.gz
+1004	nginx-1.15.8.tar.gz
+
+实例5：方便阅读的格式显示（常用）
+
+[root@server1 ~]# du -h nginx-1.14.2
+48K	nginx-1.14.2/auto/cc
+...
+9.2M	nginx-1.14.2
+
+实例6：文件和目录都显示
+
+[root@server1 ~]# du -ah nginx-1.14.2
+4.0K	nginx-1.14.2/auto/cc/acc
+...
+8.0K	nginx-1.14.2/src/stream/ngx_stream_upstream_round_robin.h
+12K	nginx-1.14.2/src/stream/ngx_stream_upstream_zone_module.c
+32K	nginx-1.14.2/src/stream/ngx_stream_variables.c
+4.0K	nginx-1.14.2/src/stream/ngx_stream_variables.h
+8.0K	nginx-1.14.2/src/stream/ngx_stream_write_filter_module.c
+...
+9.2M	nginx-1.14.2
+
+实例7：按照空间大小排序
+
+[root@server1 ~]# du |sort -nr|more 
+20980	.
+9464	./nginx-1.15.8
+940	./nginx-1.14.2/objs/src/http
+888	./nginx-1.15.8/src/core
+388	./nginx-1.15.8/src/http/v2
+140	./nginx-1.15.8/contrib/vim
+136	./.vim
+40	./nginx-1.15.8/conf
+...
+0	./nginx-1.14.2/objs/src/http/modules/perl
+
+实例8：输出当前目录下各个子目录所使用的空间（常用）
+
+[root@server1 ~]# du -h --max-depth=1
+9.2M	./nginx-1.14.2
+136K	./.vim
+9.3M	./nginx-1.15.8
+21M	.
+
+不带--max-depth参数，那么将循环列出文件夹下所有文件和文件夹占用的空间，带此参数，则是指定深入目录的层数。
+
+2.1、Linux du命令和df命令区别
+1、du ：是通过搜索文件来计算每个文件的大小然后累加，du能看到的文件只是一些当前存在的，没有被删除的。他计算的大小就是当前他认为存在的所有文件大小的累加和。
+2、 df： 通过文件系统来快速获取空间大小的信息，当我们删除一个文件的时候，这个文件不是马上就在文件系统当中消失了，而是暂时消失了，当所有程序都不用时，才会根据OS的规则释放掉已经删除的文件，df记录的是通过文件系统获取到的文件的大小，他比du强的地方就是能够看到已经删除的文件，而且计算大小的时候，把这一部分的空间也加上了，更精确了。
+当文件系统也确定删除了该文件后，这时候du与df就一致了。
+
+3、free 显示内存使用情况
+free指令会显示内存的使用情况，包括实体内存，虚拟的交换文件内存，共享内存区段，以及系统核心使用的缓冲区等。
+使用方式
+
+free [-bkmhotV][-s <间隔秒数>]
+1
+命令参数
+
+-b 　以Byte为单位显示内存使用情况。
+-k 　以KB为单位显示内存使用情况。
+-m 　以MB为单位显示内存使用情况。
+-h 　以合适的单位显示内存使用情况，最大为三位数，自动计算对应的单位值。单位有：
+	B = bytes
+	K = kilos
+	M = megas
+	G = gigas
+	T = teras
+	
+-o 　不显示缓冲区调节列。
+-s<间隔秒数> 　持续观察内存使用状况。
+-t 　显示内存总和列。
+-V 　显示版本信息。
+
+实例1：显示内存使用信息
+
+[root@server1 ~]# free
+total used free shared buffers cached
+Mem: 254772 184568 70204 0 5692 89892
+-/+ buffers/cache: 88984 165788
+Swap: 524280 65116 459164
+
+Mem行（单位均为M）：
+    total   系统总的可用物理内存大小
+    
+    used    已被使用的物理内存大小
+    
+    free    还有多少物理内存可用
+    
+    shared  被共享使用的物理内存大小
+    
+    buff/cache  被 buffer 和 cache 使用的物理内存大小
+    
+    available   还可以被 应用程序 使用的物理内存大小
+    
+   (-/+ buffers/cache)行：
+		（-buffers/cache）: 真正使用的内存数，指的是第一部分的 used - buffers - cached
+		（+buffers/cache）: 可用的内存数，指的是第一部分的 free + buffers + cached
+
+Swap行指交换分区		
+
+实例2:以总和的形式查询内存的使用信息
+
+[root@server1 ~]# free -t
+total used free shared buffers cached
+Mem: 254772 184868 69904 0 5936 89908
+-/+ buffers/cache: 89024 165748
+Swap: 524280 65116 459164
+Total: 779052 249984 529068
+
+实例3:周期性的查询内存使用信息
+
+[root@server1 ~]# free -s 10 //每10s 执行一次命令
+total used free shared buffers cached
+Mem: 254772 187628 67144 0 6140 89964
+-/+ buffers/cache: 91524 163248
+Swap: 524280 65116 459164
+
+total used free shared buffers cached
+Mem: 254772 187748 67024 0 6164 89940
+-/+ buffers/cache: 91644 163128
+Swap: 524280 65116 459164
+
+4、使用top命令监控系统进程
+top：“实时查看” ，按q退出 (实时动态显示)
+
+   -a　　# 将进程按照使用内存排序
+
+　　-b　　# 批处理的模式显示进程信息，输出结果可以传递给其他程序或写入到文件中，配合-n使用，一直打到-n设置的阈值
+
+　　-c　　# 显示进程的整个命令路径，而不是只显示命令名称
+
+　　-d　　# 指定每两次屏幕信息刷新之间的时间间隔
+
+　　-H　　# 指定这个可以显示每个线程的情况，否则就是进程的总的状态
+
+　　-i　　# 不显示闲置或者僵死的进程状态　　
+
+　　-n　　# top输出信息更新的次数，完成后将推出top命令
+
+　　-p　　# 显示指定的进程信息
+
+键入 top,显示如下信息
+
+top - 14:27:26 up 4:22, 1 user, load average: 0.08, 0.03, 0.05
+Tasks:  96 total,   2 running,  94 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.3 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  1865284 total,  1460360 free,    96264 used,   308660 buff/cache
+KiB Swap:  1048572 total,  1048572 free,        0 used.  1595216 avail Mem 
+
+   PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND            
+  2029 root      20   0       0      0      0 R  0.3  0.0   0:00.14 kworker/0:1 
+
+第一行：任务队列信息，同uptime命令的执行结果
+　　　
+
+　　14:27:26　　　　# 当前系统时间
+　　up  4:26　　　　# 系统已经运行了4个半小时
+　　1 user　　　　　# 当前有1个用户登录系统
+　　load average: 0.08, 0.03, 0.05　　　　# 1分钟，5分钟，15分钟的平均负载情况
+
+第二行：Tasks为任务（进程）。上面的信息显示为
+　　共有96个进程，处于运行状态的有2个，94个在休眠，stoped状态0个，zombie状态有0个
+
+第三行：CPU状态信息
+　　us　　# 用户空间占用CPU的百分比
+　　sy　　# 内核空间占用cpu的百分比
+　　ni　　# 改变优先级的进程占用CPU的百分比
+　　id　　# 空闲CPU百分比
+　　wa　　# I/O等待只用CPU的百分比
+　　hi　　# 硬中断占用CPU的百分比
+　　si　　# 软中断
+　　st　　# 虚拟机占用CPU的百分比
+
+第四行：内存状态
+
+　　total　　# 物理内存总量
+　　used　　　# 使用中的内存总量
+　　free　　　# 空闲内存总量
+　　buffers　　# 缓冲的内存量
+
+第五行：swap交换分区信息
+　　total　　# 交换分区总量
+　　used　　　# 使用的交换区总量
+　　free　　　　# 空闲交换区总量
+　　cached　　# 缓存的内存量
+
+第六行：空行
+
+第七行：给出的各进程（任务）的状态监控
+　　PID　　# 进程iD
+　　USER　　# 进程所有者
+　　PR　　　　# 进程优先级
+　　NI　　　　# nice值，负值表示高优先级，正值表示低优先级
+　　VIRT　　　　# 进程使用的虚拟内存总量，单位为KB
+　　RES　　　　# 进程使用的，未被换出的物理内存大小，单位KB
+　　SHR　　　　# 共享内存大小，单位为kb
+　　S　　　　　　# 进程状态，D=不可中断的睡眠状态，R=运行，S=睡眠，T=跟踪/停止，Z=僵尸进程
+　　%CPU　　　　# 上次更新到现在的CPU时间占用百分比
+　　%MEM　　　　# 进程使用的物理内存百分比
+　　TIME+　　　　# 进程使用的物理内存百分比
+　　COMMAND　　# 进程名称
+
