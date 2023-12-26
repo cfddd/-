@@ -93,3 +93,49 @@ SSH协议是如何应对的呢？
 这条命令由多个语句组成，依次分解开来看：（1）"$ ssh user@host"，表示登录远程主机；（2）单引号中的mkdir .ssh && cat >> .ssh/authorized_keys，表示登录后在远程shell上执行的命令：（3）"$ mkdir -p .ssh"的作用是，如果用户主目录中的.ssh目录不存在，就创建一个；（4）'cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub的作用是，将本地的公钥文件~/.ssh/id_rsa.pub，重定向追加到远程文件authorized_keys的末尾。
 
 写入authorized_keys文件后，公钥登录的设置就完成了。
+
+## 七、ssh——scp传文件
+> [通过 SSH 在远程和本地系统之间传输文件的 4 种方法 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/507876254)
+
+
+### 基本用法
+命令格式：
+```
+scp source destination
+```
+将source路径下的文件复制到destination中
+
+--- 
+一次复制多个文件：
+scp source1 source2 destination
+
+---
+
+复制文件夹：
+```
+scp -r ~/tmp myserver:/home/acs/
+```
+将本地家目录中的tmp文件夹复制到myserver服务器中的/home/acs/目录下。
+```
+scp -r ~/tmp myserver:homework/
+```
+将本地家目录中的tmp文件夹复制到myserver服务器中的~/homework/目录下。
+```
+scp -r myserver:homework .
+```
+将myserver服务器中的~/homework/文件夹复制到本地的当前路径下。
+
+---
+指定服务器的端口号：
+
+---
+```
+scp -P 22 source1 source2 destination
+```
+**注意： scp的-r -P等参数尽量加在source和destination之前。**
+
+---
+**使用scp配置其他服务器的vim和tmux**
+```
+scp ~/.vimrc ~/.tmux.conf myserver:
+```

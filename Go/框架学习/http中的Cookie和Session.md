@@ -90,8 +90,13 @@ cookie.setMaxAge(60*60);//过期时间为1小时
 经常有这样一种误解说的是当浏览器关闭后，session 也就被销毁了，实际上这个说法并不准确。  
 这是因为 sessionId 通常是被当作会话 Cookie 进行处理的，所以当我们关闭浏览器后，sessionId 也就销毁了，所有也就无法找到原来的 session 了。如果服务器设置的 Cookie 被保存在了硬盘上，或者直接改写了浏览器发出的 HTTP 请求头，把原来的 sessionId 发送给了服务端，那么这是仍然能够找到原来的 session 的。
 
+## **小结：**
+Session是另一种记录客户状态的机制，不同的是**Cookie保存在客户端浏览器中，而Session保存在服务器上**。客户端浏览器访问服务器的时候，服务器把客户端信息以某种形式记录在服务器上。这就是Session。客户端浏览器再次访问时只需要从该Session中查找该客户的状态就可以了。
+
+
 参考：  
 [https://www.cnblogs.com/andy-zhou/p/5360107.html](https://www.cnblogs.com/andy-zhou/p/5360107.html)  
 [https://justsee.iteye.com/blog/1570652](https://justsee.iteye.com/blog/1570652)
 [理解Cookie和Session - Helldorado - 博客园 (cnblogs.com)](https://www.cnblogs.com/liyutian/p/10277817.html)
 [彻底理解cookie，session，token - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/63061864)
+[彻底了解Cookie和Session的区别（面试）_session和cookie的区别-CSDN博客](https://blog.csdn.net/weixin_45393094/article/details/104747360)

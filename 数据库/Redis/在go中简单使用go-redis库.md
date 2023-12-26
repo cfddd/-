@@ -280,3 +280,4 @@ func transactionDemo(client *redis.Client) {
 [go-redis开发手册 - Go语言玩转Redis的正确姿势 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/645669818)
 [Go Redis [快速入门] (uptrace.dev)](https://redis.uptrace.dev/zh/guide/go-redis.html#dial-tcp-i-o-timeout)
 [go-redis使用入门 - 掘金 (juejin.cn)](https://juejin.cn/post/7202521955366879288)
+https://www.cnblogs.com/itbsl/p/14198111.html
