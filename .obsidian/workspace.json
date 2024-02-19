@@ -4,35 +4,47 @@
     "type": "split",
     "children": [
       {
-        "id": "74d7f06ee8cf5494",
+        "id": "4cadb0dd1efd5ad1",
         "type": "tabs",
         "children": [
           {
-            "id": "e2ba5f269b8c2dfe",
+            "id": "c5c1e9b608179b72",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "数据库/MySQL/14. 索引.md",
+                "file": "数据库/MySQL/MySQL 日志.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "5fcd5aadfd8b9cdc",
+            "id": "f8998310d2b067c5",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "数据库/MySQL/mysql索引的原理.md",
+                "file": "star 法则.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "90c96cf5d6c580c0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Go/golang/go切片.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -61,7 +73,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "desc",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -82,7 +94,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 270.5
+    "width": 200
   },
   "right": {
     "id": "d529a8d1fd27fd99",
@@ -109,7 +121,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "数据库/MySQL/mysql索引的原理.md"
+                "file": "Go/golang/go切片.md"
               }
             }
           },
@@ -119,7 +131,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "数据库/MySQL/mysql索引的原理.md",
+                "file": "Go/golang/go切片.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -136,7 +148,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "数据库/MySQL/mysql索引的原理.md",
+                "file": "Go/golang/go切片.md",
                 "linksCollapsed": true,
                 "unlinkedCollapsed": false
               }
@@ -148,7 +160,9 @@
             "state": {
               "type": "all-properties",
               "state": {
-                "sortOrder": "frequency"
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
               }
             }
           },
@@ -161,11 +175,11 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 279.5
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -178,56 +192,56 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "5fcd5aadfd8b9cdc",
+  "active": "90c96cf5d6c580c0",
   "lastOpenFiles": [
-    "2023-12-26.md",
-    "数据库/MySQL/mysql索引的原理.md",
+    "Go/golang/go语言-回调函数（钩子）.md",
+    "Go/golang/goland中编译生成linux执行程序和重定向.md",
+    "Go/golang/golang中置new()函数和make()函数的区别.md",
+    "Go/golang/go接口.md",
+    "Go/golang/go常量小知识点.md",
+    "Go/golang/go测试.md",
+    "Go/golang/go Map.md",
+    "Go/golang/go gc垃圾回收原理.md",
+    "Go/golang/go 语言select.md",
+    "Go/golang/GMP 模型总结.md",
+    "数据库/数据库被盗.md",
+    "数据库/缓存雪崩、缓存击穿、缓存穿透.md",
+    "OS操作系统/linux 查看僵尸进程(todo).md",
+    "数据库/RabbitMQ/0. RabbitMQ入门.md",
+    "计算机网络/OSI七层模型和TCPIP五层模型.md",
+    "计算机网络/HTTP/HTTP 原理和面试题.md",
+    "数据库/Elasticsearch/6.分词器.md",
+    "数据库/Elasticsearch/4.高级查询.md",
+    "数据库/Elasticsearch/5.索引原理.md",
+    "数据库/Elasticsearch/7.过滤查询.md",
+    "数据库/Elasticsearch/8. 聚合查询.md",
+    "数据库/Elasticsearch/9. 集群.md",
+    "数据库/Elasticsearch/3.基本操作.md",
+    "数据库/Elasticsearch/2.核心概念.md",
+    "数据库/Elasticsearch/1.全文检索.md",
     "数据库/MySQL/14. 索引.md",
-    "数据库/MySQL/MySQL参数--.md",
-    "OS操作系统/linux常用命令.md",
+    "微服务/RPC",
+    "Go/MircoserviceDS抖声微服务项目",
+    "微服务/Etcd",
+    "计算机网络/IP",
+    "计算机网络/HTTP",
+    "addition/Pasted image 20240131223653.png",
+    "计算机网络/TCP",
+    "数据库/RabbitMQ",
+    "未命名.canvas",
+    "addition/Pasted image 20231217171058.png",
+    "微服务",
+    "addition/Pasted image 20231217171107.png",
+    "OS操作系统/未命名",
+    "OS操作系统/课内笔记",
     "addition/Pasted image 20230926192115.png",
     "addition/Pasted image 20230804193613.png",
     "addition/Pasted image 20230803172820.png",
     "addition/Pasted image 20230803171335.png",
     "addition/Pasted image 20230803162412.png",
-    "addition/ok.md",
-    "计组/一、计算机概论.md",
-    "计组/img",
-    "Go/goland/go并发/go 反射.md",
-    "计组",
-    "Go/goland/go并发/2.Channels.md",
-    "Go/goland/go并发/Golang 并发赋值的安全性探讨.md",
-    "Go/goland/go Map.md",
-    "Go/go面试/学习网址.md",
-    "Go/goland/golang中置new()函数和make()函数的区别.md",
-    "Go/goland/go常量小知识点.md",
-    "Go/goland/go gc垃圾回收原理.md",
-    "数据库/Redis/在go中简单使用go-redis库.md",
-    "数据库/Redis/4、有序集合.md",
-    "Go/框架学习/go数据库预加载preload.md",
-    "Go/gin-vue-admin/1. 每天定时更新用户每个月打卡次数.md",
-    "Go/框架学习/http中的Cookie和Session.md",
-    "Go/框架学习/gorm相关文档.md",
-    "Go/PROJECT BLOG/gvb/1.创建后端项目.md",
-    "数据库/MySQL/2. MySQL语句.md",
-    "数据库/MySQL/2105110007常凤迪数据库课.md",
-    "数据库/MySQL/数据库的事务操作.md",
-    "数据库/MySQL/数据库的迁移.md",
-    "addition/Pasted image 20231217171107.png",
-    "addition/Pasted image 20231217171058.png",
     "addition/Pasted image 20231217165008.png",
     "addition/Pasted image 20231217165005.png",
-    "addition/Pasted image 20231217164940.png",
-    "汇编语言",
     "未命名 1.canvas",
-    "未命名.canvas",
-    "数据库/MySQL",
-    "Go/goland/go并发",
-    "Go/Coder",
-    "Go/goland/go语言基础",
-    "Go/go面试",
-    "数据库/Elasticsearch",
-    "数据库/Redis/未命名",
     "最短路/未命名.canvas"
   ]
 }

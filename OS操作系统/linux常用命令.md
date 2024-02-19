@@ -1,5 +1,8 @@
-[40个最常用的Linux命令行大全 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/420247468)
-[常用的Linux命令（面试/工作必备） - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/458483707)
+> [40个最常用的Linux命令行大全 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/420247468)
+> [常用的Linux命令（面试/工作必备） - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/458483707)
+>[Linux 关机命令（超详细） - 犬小哈教程 (quanxiaoha.com)](https://www.quanxiaoha.com/linux-command/linux-shutdown.html)
+
+
 **一、关机重启**
 
 ```text
@@ -260,13 +263,21 @@ ifconfig：查看网卡信息
 ```text
 命令：netstat -an
 ```
-
+- -t (tcp) 仅显示tcp相关选项
+- -u (udp)仅显示udp相关选项
+- -n 拒绝显示别名，能显示数字的全部转化为数字
+- -l 仅列出在Listen(监听)的服务状态
+- -p 显示建立相关链接的程序名
 **搜索指定端口**
 
 ```text
 命令：netstat -an | grep 8080
 ```
+**查看占用端口进程的PID**
 
+```bash
+netstat -tunlp|grep {port}
+```
 **配置网络**
 
 ```text
@@ -306,8 +317,9 @@ ifconfig：查看网卡信息
 
 ### 使用方式
 
-df [选项] [文件]
+**df [选项] [文件]**
 命令参数
+```
 
 -a 列出所有的文件系统，包括系统特有的 /proc 等文件系统
 -k 以 KBytes 的容量显示各文件系统。命令 df -k 同命令 df
@@ -325,10 +337,11 @@ df [选项] [文件]
 -x <文件系统类型> 不显示选定文件系统的磁盘信息
 --help 显示帮助信息
 --version 显示版本信息
-
+```
 ### 使用实例
 实例1：显示磁盘使用情况
 
+```
 [root@server1 ~]# df
 Filesystem            1K-blocks    Used Available Use% Mounted on
 /dev/mapper/rhel-root  17811456 1196004  16615452   7% /
@@ -338,7 +351,7 @@ tmpfs                    508188    6736    501452   2% /run
 tmpfs                    508188       0    508188   0% /sys/fs/cgroup
 /dev/vda1               1038336  141508    896828  14% /boot
 tmpfs                    101640       0    101640   0% /run/user/0
-
+```
 
 1、Filesystem：代表文件系统对应的设备文件的路径名（一般是硬盘上的分区）；
 
@@ -354,6 +367,7 @@ tmpfs                    101640       0    101640   0% /run/user/0
 
 ### 实例2：以inode模式来显示磁盘使用情况
 
+```
 [root@server1 ~]# df -i
 Filesystem             Inodes IUsed   IFree IUse% Mounted on
 /dev/mapper/rhel-root 8910848 35051 8875797    1% /
@@ -363,9 +377,10 @@ tmpfs                  127047   410  126637    1% /run
 tmpfs                  127047    16  127031    1% /sys/fs/cgroup
 /dev/vda1              524288   328  523960    1% /boot
 tmpfs                  127047     1  127046    1% /run/user/0
-
+```
 ### 实例3：列出文件系统的类型
 
+```
 [root@server1 ~]# df -T
 Filesystem            Type     1K-blocks    Used Available Use% Mounted on
 /dev/mapper/rhel-root xfs       17811456 1196004  16615452   7% /
@@ -375,9 +390,10 @@ tmpfs                 tmpfs       508188    6740    501448   2% /run
 tmpfs                 tmpfs       508188       0    508188   0% /sys/fs/cgroup
 /dev/vda1             xfs        1038336  141508    896828  14% /boot
 tmpfs                 tmpfs       101640       0    101640   0% /run/user/0
-
+```
 ### 实例4：显示目前磁盘空间和使用情况 （最常用）
 
+```
 [root@server1 ~]# df -h
 Filesystem             Size  Used Avail Use% Mounted on
 /dev/mapper/rhel-root   17G  1.2G   16G   7% /
@@ -421,7 +437,7 @@ tmpfs                    508188       0    508188   0% /sys/fs/cgroup
 /dev/vda1               1038336  141508    896828  14% /boot
 tmpfs                    101640       0    101640   0% /run/user/0
 
-
+```
 说明：
 
 -h更具目前磁盘空间和使用情况 以更易读的方式显示
@@ -439,9 +455,9 @@ tmpfs                    101640       0    101640   0% /run/user/0
 
 ### 使用方式
 
-df 
+**df** 
 命令参数
-
+```
 -a或-all  列出所you的文件与目录容量，因为默认仅统计目录下面的文件量  
 -b或-bytes  显示目录或文件大小时，以byte为单位。   
 -c或--total  除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和。
@@ -457,11 +473,11 @@ df
 -D或--dereference-args   显示指定符号链接的源文件大小。   
 -H或--si  与-h参数相同，但是K，M，G是以1000为换算单位。   
 -l或--count-links   重复计算硬件链接的文件。   
-
+```
 ### 使用实例
 
-实例1：显示目录或者文件所占空间
-
+**实例1：显示目录或者文件所占空间**
+```
 [root@server1 ~]# du
 48	./nginx-1.14.2/auto/cc
 ...
@@ -469,38 +485,40 @@ df
 9464	./nginx-1.15.8
 20980	.
  
+```
 说明：
 直接输入 du 没有加任何选项时，则 du 会分析【目前所在目录】的文件与目录所占用的磁盘空间。
 但是，实际显示时，仅显示目录容量（不含文件），因此（.）目录有很多文件没有列出来。
 所以全部的目录相加不会等于（.）的容量，此外，输出的数据为 1K 大小的容量单位
 
-实例2：显示指定文件所占空间
-
+**实例2：显示指定文件所占空间**
+```
 [root@server1 ~]# du date.txt 
 4	date.txt
-
-实例3：查看指定目录的所占空间
-
+```
+**实例3：查看指定目录的所占空间**
+```
 [root@server1 ~]# du nginx-1.14.2
 48	nginx-1.14.2/auto/cc
 ...
 9348	nginx-1.14.2
-
-实例4：显示多个文件所占空间
-
+```
+**实例4：显示多个文件所占空间**
+```
 [root@server1 ~]# du nginx-1.14.2.tar.gz nginx-1.15.8.tar.gz 
 992	nginx-1.14.2.tar.gz
 1004	nginx-1.15.8.tar.gz
-
-实例5：方便阅读的格式显示（常用）
-
+```
+**实例5：方便阅读的格式显示（常用）**
+```
 [root@server1 ~]# du -h nginx-1.14.2
 48K	nginx-1.14.2/auto/cc
 ...
 9.2M	nginx-1.14.2
+```
+**实例6：文件和目录都显示**
 
-实例6：文件和目录都显示
-
+```
 [root@server1 ~]# du -ah nginx-1.14.2
 4.0K	nginx-1.14.2/auto/cc/acc
 ...
@@ -511,9 +529,10 @@ df
 8.0K	nginx-1.14.2/src/stream/ngx_stream_write_filter_module.c
 ...
 9.2M	nginx-1.14.2
+```
+**实例7：按照空间大小排序**
 
-实例7：按照空间大小排序
-
+```
 [root@server1 ~]# du |sort -nr|more 
 20980	.
 9464	./nginx-1.15.8
@@ -525,15 +544,16 @@ df
 40	./nginx-1.15.8/conf
 ...
 0	./nginx-1.14.2/objs/src/http/modules/perl
+```
+**实例8：输出当前目录下各个子目录所使用的空间（常用）**
 
-实例8：输出当前目录下各个子目录所使用的空间（常用）
-
+```
 [root@server1 ~]# du -h --max-depth=1
 9.2M	./nginx-1.14.2
 136K	./.vim
 9.3M	./nginx-1.15.8
 21M	.
-
+```
 不带--max-depth参数，那么将循环列出文件夹下所有文件和文件夹占用的空间，带此参数，则是指定深入目录的层数。
 
 ## Linux du命令和df命令区别
@@ -545,9 +565,9 @@ df
 free指令会显示内存的使用情况，包括实体内存，虚拟的交换文件内存，共享内存区段，以及系统核心使用的缓冲区等。
 使用方式
 
-free 
+**free** 
 命令参数
-
+```
 -b 　以Byte为单位显示内存使用情况。
 -k 　以KB为单位显示内存使用情况。
 -m 　以MB为单位显示内存使用情况。
@@ -562,9 +582,9 @@ free
 -s<间隔秒数> 　持续观察内存使用状况。
 -t 　显示内存总和列。
 -V 　显示版本信息。
-
-实例1：显示内存使用信息
-
+```
+**实例1：显示内存使用信息**
+```
 [root@server1 ~]# free
 total used free shared buffers cached
 Mem: 254772 184568 70204 0 5692 89892
@@ -587,20 +607,22 @@ Mem行（单位均为M）：
    (-/+ buffers/cache)行：
 		（-buffers/cache）: 真正使用的内存数，指的是第一部分的 used - buffers - cached
 		（+buffers/cache）: 可用的内存数，指的是第一部分的 free + buffers + cached
-
+```
 Swap行指交换分区		
 
-实例2:以总和的形式查询内存的使用信息
+**实例2:以总和的形式查询内存的使用信息**
 
+```
 [root@server1 ~]# free -t
 total used free shared buffers cached
 Mem: 254772 184868 69904 0 5936 89908
 -/+ buffers/cache: 89024 165748
 Swap: 524280 65116 459164
 Total: 779052 249984 529068
+```
 
-实例3:周期性的查询内存使用信息
-
+**实例3:周期性的查询内存使用信息**
+```
 [root@server1 ~]# free -s 10 //每10s 执行一次命令
 total used free shared buffers cached
 Mem: 254772 187628 67144 0 6140 89964
@@ -611,10 +633,11 @@ total used free shared buffers cached
 Mem: 254772 187748 67024 0 6164 89940
 -/+ buffers/cache: 91644 163128
 Swap: 524280 65116 459164
-
+```
 ## 使用top命令监控系统进程
 top：“实时查看” ，按q退出 (实时动态显示)
 
+```
    -a　　# 将进程按照使用内存排序
 
 　　-b　　# 批处理的模式显示进程信息，输出结果可以传递给其他程序或写入到文件中，配合-n使用，一直打到-n设置的阈值
@@ -630,9 +653,9 @@ top：“实时查看” ，按q退出 (实时动态显示)
 　　-n　　# top输出信息更新的次数，完成后将推出top命令
 
 　　-p　　# 显示指定的进程信息
-
+```
 键入 top,显示如下信息
-
+```
 top - 14:27:26 up 4:22, 1 user, load average: 0.08, 0.03, 0.05
 Tasks:  96 total,   2 running,  94 sleeping,   0 stopped,   0 zombie
 %Cpu(s):  0.0 us,  0.3 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
@@ -641,7 +664,7 @@ KiB Swap:  1048572 total,  1048572 free,        0 used.  1595216 avail Mem
 
    PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND            
   2029 root      20   0       0      0      0 R  0.3  0.0   0:00.14 kworker/0:1 
-
+```
 第一行：任务队列信息，同uptime命令的执行结果
 　　　
 
@@ -696,4 +719,16 @@ KiB Swap:  1048572 total,  1048572 free,        0 used.  1595216 avail Mem
 [linux后台运行、挂起、恢复进程相关命令_linux 在另一个session回复被挂起的程序-CSDN博客](https://blog.csdn.net/koberonaldo24/article/details/103136125)
 ```
 nohup <command> &
+```
+## 查询域名对应的ip
+查看域名对应的ip，无论在windows还是在linux下都是用 `nslookup`
+```shell
+PS C:\Users\DELL> nslookup baidu.com
+服务器:  cache.ahwhtel.net.cn
+Address:  202.102.213.68
+
+非权威应答:
+名称:    baidu.com
+Addresses:  110.242.68.66
+          39.156.66.10
 ```

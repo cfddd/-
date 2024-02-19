@@ -103,3 +103,4 @@ Redis 是一个多功能的内存数据存储系统，适用于多种应用场�
 - [Redis 教程 | 菜鸟教程 (runoob.com)](https://www.runoob.com/redis/redis-tutorial.html)
 - ﻿[​﻿‌‬​⁢⁤​⁢‍⁢‌⁣‌‍⁣​⁤⁡⁡⁡⁣​⁣‌⁣﻿​⁡​﻿‍‬‬⁤‌‌⁡⁡‬⁣‌‌‌⁣​﻿‌Redis-大厂程序员是怎么用的.pptx - 飞书云文档 (feishu.cn)](https://bytedance.feishu.cn/file/TcbGb6isWoTKbLxCaqfc77Qqnee)
 - [Redis【入门】就这一篇！ - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/37982685)
+- [【超级详细】一文搞懂redis的所有知识点 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/663851226)
