@@ -2,7 +2,7 @@
 > [常用的Linux命令（面试/工作必备） - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/458483707)
 >[Linux 关机命令（超详细） - 犬小哈教程 (quanxiaoha.com)](https://www.quanxiaoha.com/linux-command/linux-shutdown.html)
 
-
+## 常用命令
 **一、关机重启**
 
 ```text
@@ -135,7 +135,7 @@ tar -zcvf start.tar.gz a.java b.java	        //将当前目录下a.java、b.java
 tar -zcvf start.tar.gz ./*		        //将当前目录下的所欲文件打包压缩成start.tar.gz文件
 ```
 
-解压缩
+**解压缩**
 
 ```text
 tar -xvf start.tar				//解压start.tar压缩包，到当前文件夹下；
@@ -145,7 +145,7 @@ tar -zxvf start.tar.gz			         //解压start.tar.gz压缩包，到当前文�
 tar -zxvf start.tar.gz -C usr/loca            	//解压start.tar.gz压缩包，到/usr/local目录下；
 ```
 
-压缩(zip)
+**压缩(zip)**
 
 ```text
 zip lib.zip tomcat.jar					//将单个文件压缩(lib.zip)
@@ -153,7 +153,7 @@ zip -r lib.zip lib/					//将目录进行压缩(lib.zip)
 zip -r lib.zip tomcat-embed.jar xml-aps.jar		//将多个文件压缩为zip文件(lib.zip)	
 ```
 
-解压缩(unzip)
+**解压缩(unzip)**
 
 ```text
 unzip file1.zip  					//解压一个zip格式压缩包
@@ -300,6 +300,8 @@ netstat -tunlp|grep {port}
 ```
 
 **修改文件权限**
+> [Linux文件权限详解_linux 文件权限-CSDN博客](https://blog.csdn.net/lv8549510/article/details/85406215)
+
 
 ```text
 命令：chmod 777
@@ -732,3 +734,6 @@ Address:  202.102.213.68
 Addresses:  110.242.68.66
           39.156.66.10
 ```
+## 用户权限
+> [Ubuntu/Linux用户管理与权限管理（超详细解析）_ubuntu nologin-CSDN博客](https://blog.csdn.net/yl19870518/article/details/100776136)
+> [Ubuntu 20.04操作基础（8：用户权限相关命令） - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/560862357)

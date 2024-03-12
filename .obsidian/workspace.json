@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "bf2021966418b0a6",
+        "id": "175e6cba7111300a",
         "type": "tabs",
         "children": [
           {
-            "id": "947399fdb0a2935c",
+            "id": "bf775782458f7374",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Go/golang/go `...`.md",
+                "file": "数据库/Redis/Redis 持久化.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Go/golang/go `...`.md",
+                "file": "数据库/Redis/Redis 持久化.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Go/golang/go `...`.md",
+                "file": "数据库/Redis/Redis 持久化.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Go/golang/go `...`.md"
+                "file": "数据库/Redis/Redis 持久化.md"
               }
             }
           },
@@ -159,44 +159,44 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "5e58abac4ab41e9a",
+  "active": "bf775782458f7374",
   "lastOpenFiles": [
-    "Go/golang/依赖管理.md",
-    "Go/golang/go `...`.md",
-    "Go/golang/go切片.md",
-    "Go/框架学习/plugin.md",
-    "数据库/Redis/5、Hash.md",
-    "计算机网络/OSI七层模型和TCPIP五层模型.md",
-    "数据库/Redis/2、Redis列表.md",
-    "数据库/Redis/4、有序集合.md",
-    "数据库/Redis/3、Redis集合.md",
+    "数据库/缓存雪崩、缓存击穿、缓存穿透.md",
+    "Go/gin-vue-admin/3. jwt 和 casbin 中间件.md",
+    "Go/gin-vue-admin/4. 用户密码脱敏.md",
+    "Go/gin-vue-admin/主要技术使用.md",
+    "Go/golang/go并发/Golang 并发赋值的安全性探讨.md",
+    "Go/golang/go Map.md",
+    "OS操作系统/课内笔记/6.存储器管理.md",
+    "OS操作系统/课内笔记/7.虚拟存储器.md",
+    "实习记录/节点日志.md",
     "OS操作系统/linux常用命令.md",
-    "Go/框架学习/Cobra.md",
-    "Go/框架学习/parser库.md",
-    "Go/框架学习/gRPC.md",
-    "Go/golang/go gc垃圾回收原理.md",
+    "计算机网络/TCP/三次握手与四次挥手.md",
     "Go/golang/GMP 模型总结.md",
+    "Go/golang/go 泛型.md",
+    "计算机网络/OSI七层模型和TCPIP五层模型.md",
+    "计算机网络/HTTP/HTTP 原理和面试题.md",
+    "数据库/MySQL/5. 聚合函数.md",
+    "数据库/MySQL/2. MySQL语句.md",
+    "数据库/MySQL/1. 数据库连接.md",
+    "Go/golang/go接口.md",
+    "Go/golang/go并发/1.Goroutines.md",
+    "Go/golang/go切片.md",
+    "Go/golang/go语言-回调函数（钩子）.md",
+    "Go/golang/go 语言select.md",
+    "Go/golang/go `...`.md",
     "Go/golang/出现的各种错误.md",
-    "实习记录/fobrain 部署问题.md",
-    "微服务/RPC/grpc.md",
-    "Git/如何克隆私有项目.md",
-    "Docker/5.Dockerfile.md",
-    "Git",
+    "Go/golang/golang中置new()函数和make()函数的区别.md",
+    "汇编语言",
+    "微服务/RPC",
+    "微服务/Etcd",
+    "微服务",
     "实习记录",
-    "Go/框架学习/gRPC",
-    "微服务/RPC/未命名",
-    "微服务/RPC/RPC 介绍.md",
-    "数据库/Elasticsearch/2.核心概念.md",
-    "数据库/Elasticsearch/1.全文检索.md",
-    "数据库/Elasticsearch/ES dev console.md",
-    "Docker/1.Docker基础.md",
-    "OS操作系统/SSH原理与运用.md",
-    "数据结构/统计异或值在范围内的数对有多少（01字典树）.html",
-    "数据结构/基础的树状数组、线段树操作（区间求和，单点修改、区间修改）.html",
-    "数据结构/E. Beautiful Subarrays（01字典树）.html",
-    "数据结构/D. Fixed Prefix Permutations(字典树).html",
-    "数据结构",
+    "博客备份/cnblogs_blog_cfddfc.20230703165329.db",
+    "博客备份",
     "计算机网络/webServer/TCP_IP网络编程",
+    "计算机网络/webServer",
+    "计算机网络/TCP",
     "算法/最短路/Pasted image 20230726211309.png",
     "算法/最短路/Pasted image 20230726211211.png",
     "算法/最短路/Pasted image 20230724165110.png",
@@ -204,8 +204,8 @@
     "算法/最短路/Pasted image 20230720171909.png",
     "算法/最短路/Pasted image 20230720171904.png",
     "算法/最短路/Pasted image 20230720171702.png",
-    "addition/未命名文件.png",
     "addition/Pasted image 20240131223653.png",
-    "addition/Pasted image 20231217171107.png"
+    "addition/Pasted image 20231217171107.png",
+    "addition/Pasted image 20231217171058.png"
   ]
 }
