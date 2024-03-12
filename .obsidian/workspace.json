@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "数据库/Redis/Redis 持久化.md",
+                "file": "Git/git Merge vs Rebase.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "数据库/Redis/Redis 持久化.md",
+                "file": "Git/git Merge vs Rebase.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "数据库/Redis/Redis 持久化.md",
+                "file": "Git/git Merge vs Rebase.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "数据库/Redis/Redis 持久化.md"
+                "file": "Git/git Merge vs Rebase.md"
               }
             }
           },
@@ -161,6 +161,13 @@
   },
   "active": "bf775782458f7374",
   "lastOpenFiles": [
+    "Git/如何克隆私有项目.md",
+    "Git/git Merge vs Rebase.md",
+    "数据库/Redis/Redis 线程模型.md",
+    "数据库/Redis/Redis 持久化.md",
+    "数据结构/拓展kmp.md",
+    "微服务/6.824/1.介绍.md",
+    "微服务/6.824",
     "数据库/缓存雪崩、缓存击穿、缓存穿透.md",
     "Go/gin-vue-admin/3. jwt 和 casbin 中间件.md",
     "Go/gin-vue-admin/4. 用户密码脱敏.md",
@@ -181,12 +188,6 @@
     "数据库/MySQL/1. 数据库连接.md",
     "Go/golang/go接口.md",
     "Go/golang/go并发/1.Goroutines.md",
-    "Go/golang/go切片.md",
-    "Go/golang/go语言-回调函数（钩子）.md",
-    "Go/golang/go 语言select.md",
-    "Go/golang/go `...`.md",
-    "Go/golang/出现的各种错误.md",
-    "Go/golang/golang中置new()函数和make()函数的区别.md",
     "汇编语言",
     "微服务/RPC",
     "微服务/Etcd",
@@ -196,7 +197,6 @@
     "博客备份",
     "计算机网络/webServer/TCP_IP网络编程",
     "计算机网络/webServer",
-    "计算机网络/TCP",
     "算法/最短路/Pasted image 20230726211309.png",
     "算法/最短路/Pasted image 20230726211211.png",
     "算法/最短路/Pasted image 20230724165110.png",
