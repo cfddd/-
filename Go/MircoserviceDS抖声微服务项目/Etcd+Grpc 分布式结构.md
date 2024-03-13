@@ -174,3 +174,13 @@ func (e *EtcdDiscovery) ServiceDiscovery(prefix string) error {
 	instance["user_service"] = userClient
 
 ```
+## 小结
+> [etcd实现服务发现 - 烟花易冷人憔悴 - 博客园 (cnblogs.com)](https://www.cnblogs.com/FireworksEasyCool/p/12890649.html)
+
+服务注册：当启动一个服务时候，我们把服务的地址写进etcd，注册服务。
+
+健康检查：绑定租约（lease），并以续租约（keep leases alive）的方式检测服务是否正常运行，从而实现健康检查。
+
+服务注销：主动退出服务时，可以调用Close()方法，撤销租约，从而注销服务。
+
+服务发现：使用`Watch`监视某类服务，通过`Watch`感知服务的`添加`，`修改`或`删除`操作，修改服务列表。
