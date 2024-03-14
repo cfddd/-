@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "数据库/MySQL/数据库的引擎.md",
+                "file": "数据库/MySQL/Mysql 分库分区分表.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "数据库/MySQL/数据库的引擎.md",
+                "file": "数据库/MySQL/Mysql 分库分区分表.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "数据库/MySQL/数据库的引擎.md",
+                "file": "数据库/MySQL/Mysql 分库分区分表.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "数据库/MySQL/数据库的引擎.md"
+                "file": "数据库/MySQL/Mysql 分库分区分表.md"
               }
             }
           }
@@ -161,19 +161,31 @@
   },
   "active": "66600a3dd25389a1",
   "lastOpenFiles": [
-    "数据库/MySQL/MySQL 日志.md",
-    "数据库/MySQL/数据库的引擎.md",
-    "数据库/MySQL/mysql 索引的原理.md",
+    "Go/golang/go `...` 不定长（可选）参数.md",
+    "Go/golang/go recover.md",
+    "Go/golang/go 语言select.md",
+    "Go/golang/go 泛型.md",
+    "Go/golang/go 内存逃逸.md",
+    "计算机网络/HTTP/HTTP 原理和面试题.md",
+    "计算机网络/HTTP/公钥私钥是什么，分别有什么用？.md",
+    "计算机网络/IP/127.0.0.1、0.0.0.0和本机ip地址的区别.md",
+    "计算机网络/TCP/TCP 和 UDP 基本认知.md",
+    "计算机网络/TCP/三次握手与四次挥手.md",
+    "OS操作系统/linux常用命令.md",
+    "OS操作系统/linux 查看僵尸进程(todo).md",
+    "OS操作系统/IO多路复用.md",
     "计算机网络/负载均衡.md",
+    "数据库/Redis/4、有序集合.md",
+    "数据库/MySQL/Mysql 分库分区分表.md",
+    "数据库/MySQL/数据库的引擎.md",
+    "数据库/MySQL/MySQL 日志.md",
+    "数据库/MySQL/mysql 索引的原理.md",
     "计算机网络/OSI七层模型和TCPIP五层模型.md",
     "OS操作系统/课内笔记/3.处理机调度与死锁.md",
     "OS操作系统/课内笔记/4.进程同步.md",
     "OS操作系统/课内笔记/5.死锁.md",
     "Go/golang/go接口.md",
-    "Go/golang/go `...` 不定长（可选）参数.md",
     "Go/MircoserviceDS抖声微服务项目/数据库和缓存如何保证一致性？.md",
-    "Go/MircoserviceDS抖声微服务项目/单例模式.md",
-    "Git/git Merge vs Rebase.md",
-    "Git/如何克隆私有项目.md"
+    "Go/MircoserviceDS抖声微服务项目/单例模式.md"
   ]
 }
