@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "数据库/MySQL/数据库的引擎.md",
+                "file": "数据库/MySQL/1. 数据库连接.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 297.5
   },
   "right": {
     "id": "ee1fd645b4c0010c",
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "数据库/MySQL/数据库的引擎.md",
+                "file": "数据库/MySQL/1. 数据库连接.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "数据库/MySQL/数据库的引擎.md",
+                "file": "数据库/MySQL/1. 数据库连接.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "数据库/MySQL/数据库的引擎.md"
+                "file": "数据库/MySQL/1. 数据库连接.md"
               }
             }
           }
@@ -161,8 +161,21 @@
   },
   "active": "66600a3dd25389a1",
   "lastOpenFiles": [
-    "数据库/MySQL/MySQL 日志.md",
+    "数据库/MySQL/9. 存储过程.md",
+    "数据库/MySQL/11. 数据库的事务.md",
+    "数据库/MySQL/12. 数据类型.md",
+    "数据库/MySQL/10. 触发器和事件.md",
+    "数据库/MySQL/8. 视图.md",
+    "数据库/MySQL/14. 索引.md",
+    "Go/go面试/面试板子.md",
+    "Go/go面试/5. 腾讯（云）会议？.md",
+    "Go/golang/go Map.md",
+    "微服务/Etcd/1. Etcd 介绍.md",
+    "微服务/Etcd/2. 搭建 Etcd.md",
+    "微服务/RPC/RPC 介绍.md",
+    "微服务/RPC/grpc.md",
     "数据库/MySQL/数据库的引擎.md",
+    "数据库/MySQL/MySQL 日志.md",
     "数据库/MySQL/mysql 索引的原理.md",
     "计算机网络/负载均衡.md",
     "计算机网络/OSI七层模型和TCPIP五层模型.md",
@@ -173,7 +186,6 @@
     "Go/golang/go `...` 不定长（可选）参数.md",
     "Go/MircoserviceDS抖声微服务项目/数据库和缓存如何保证一致性？.md",
     "Go/MircoserviceDS抖声微服务项目/单例模式.md",
-    "Git/git Merge vs Rebase.md",
-    "Git/如何克隆私有项目.md"
+    "Git/git Merge vs Rebase.md"
   ]
 }
