@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "数据库/MySQL/1. 数据库连接.md",
+                "file": "数据库/Elasticsearch/8. 聚合查询.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "数据库/MySQL/1. 数据库连接.md",
+                "file": "数据库/Elasticsearch/8. 聚合查询.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "数据库/MySQL/1. 数据库连接.md",
+                "file": "数据库/Elasticsearch/8. 聚合查询.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "数据库/MySQL/1. 数据库连接.md"
+                "file": "数据库/Elasticsearch/8. 聚合查询.md"
               }
             }
           }
@@ -146,7 +146,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 341.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -161,31 +161,31 @@
   },
   "active": "66600a3dd25389a1",
   "lastOpenFiles": [
-    "数据库/MySQL/9. 存储过程.md",
+    "数据库/Elasticsearch/7.过滤查询.md",
+    "数据库/Elasticsearch/5.索引原理.md",
+    "数据库/Elasticsearch/4.高级查询.md",
+    "数据库/Elasticsearch/3.基本操作.md",
+    "数据库/Elasticsearch/2.核心概念.md",
+    "数据库/Elasticsearch/ES 小结.md",
+    "数据库/Elasticsearch/1.全文检索.md",
+    "Go/golang/go 反射Reflect.md",
+    "Go/golang/go 泛型.md",
+    "未命名.canvas",
+    "2024-03-18.md",
+    "OS操作系统/linux常用命令.md",
+    "数据库/Elasticsearch/ES dev console.md",
+    "数据库/Elasticsearch/6.分词器.md",
+    "数据库/Elasticsearch/8. 聚合查询.md",
+    "数据库/Elasticsearch/9. 集群.md",
+    "数据库/Elasticsearch/ES 面试总结.md",
+    "Go/golang/依赖管理.md",
+    "数据库/数据库被盗.md",
+    "数据库/缓存雪崩、缓存击穿、缓存穿透.md",
+    "OS操作系统/c++多线程——互斥锁.md",
+    "OS操作系统/进程间通信.md",
     "数据库/MySQL/11. 数据库的事务.md",
-    "数据库/MySQL/12. 数据类型.md",
-    "数据库/MySQL/10. 触发器和事件.md",
-    "数据库/MySQL/8. 视图.md",
-    "数据库/MySQL/14. 索引.md",
-    "Go/go面试/面试板子.md",
-    "Go/go面试/5. 腾讯（云）会议？.md",
-    "Go/golang/go Map.md",
-    "微服务/Etcd/1. Etcd 介绍.md",
-    "微服务/Etcd/2. 搭建 Etcd.md",
-    "微服务/RPC/RPC 介绍.md",
-    "微服务/RPC/grpc.md",
-    "数据库/MySQL/数据库的引擎.md",
-    "数据库/MySQL/MySQL 日志.md",
-    "数据库/MySQL/mysql 索引的原理.md",
-    "计算机网络/负载均衡.md",
-    "计算机网络/OSI七层模型和TCPIP五层模型.md",
-    "OS操作系统/课内笔记/3.处理机调度与死锁.md",
-    "OS操作系统/课内笔记/4.进程同步.md",
-    "OS操作系统/课内笔记/5.死锁.md",
-    "Go/golang/go接口.md",
-    "Go/golang/go `...` 不定长（可选）参数.md",
-    "Go/MircoserviceDS抖声微服务项目/数据库和缓存如何保证一致性？.md",
-    "Go/MircoserviceDS抖声微服务项目/单例模式.md",
-    "Git/git Merge vs Rebase.md"
+    "数据库/MySQL/Mysql 分库分区分表.md",
+    "计算机网络/HTTP/HTTP 原理和面试题.md",
+    "Go/golang/go `...` 不定长（可选）参数.md"
   ]
 }
