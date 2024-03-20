@@ -1,3 +1,5 @@
+> [BookSea4j/JavaRecord: 「Java学习+面试指南」一份涵盖大部分 Java 程序员所需要掌握的核心知识。打造Java后端知识体系，帮助Java初学者成长 (github.com)](https://github.com/BookSea4j/JavaRecord?tab=readme-ov-file)
+
 Elasticsearch（简称为ES）是一个开源的分布式搜索引擎，构建在Apache Lucene搜索引擎库之上。它提供了一个RESTful API，可用于实时地存储、搜索和分析大量的结构化和非结构化数据。
 
 ### 1. 基本概念

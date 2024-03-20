@@ -1,0 +1,1 @@
+> [5.6. 标签与 goto | 第五章. 控制结构 |《Go 入门指南》| Go 技术论坛 (learnku.com)](https://learnku.com/docs/the-way-to-go/label-and-goto/3597)
