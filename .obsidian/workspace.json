@@ -8,12 +8,13 @@
         "type": "tabs",
         "children": [
           {
-            "id": "66600a3dd25389a1",
+            "id": "c82d26de1dc7ef79",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "数据库/MySQL/MySQL 日志.md",
+                "file": "Go/框架学习/go Websocket.md",
                 "mode": "source",
                 "source": false
               }
@@ -48,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "sort",
+                "query": "嵌套",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -86,6 +87,7 @@
               "type": "backlink",
               "state": {
                 "file": "数据库/MySQL/MySQL 日志.md",
+                "file": "Go/框架学习/go Websocket.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,6 +105,7 @@
               "type": "outgoing-link",
               "state": {
                 "file": "数据库/MySQL/MySQL 日志.md",
+                "file": "Go/框架学习/go Websocket.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,6 +141,7 @@
               "type": "outline",
               "state": {
                 "file": "数据库/MySQL/MySQL 日志.md"
+                "file": "Go/框架学习/go Websocket.md"
               }
             }
           }
@@ -146,7 +150,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 341.5
+    "width": 309.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -159,34 +163,34 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "66600a3dd25389a1",
+  "active": "c82d26de1dc7ef79",
   "lastOpenFiles": [
-    "数据库/Redis/Redis 持久化.md",
-    "数据库/Redis/在go中简单使用go-redis库.md",
-    "数据库/Redis/Redis 线程模型.md",
-    "Go/golang/go 反射Reflect.md",
-    "计算机网络/JWT 是什么.md",
-    "数据库/存储系统和数据库.md",
-    "Go/go面试/6. 得物青训营.md",
-    "Go/go面试/5. 腾讯（云）会议？.md",
-    "Go/go面试/4. 百度.md",
-    "数据库/MySQL/14. 索引.md",
-    "数据库/Elasticsearch/4.高级查询.md",
-    "数据库/MySQL/3. 查询和连接.md",
-    "OS操作系统/linux常用命令.md",
-    "实习记录/节点日志问题.md",
-    "数据库/Elasticsearch/8. 聚合查询.md",
-    "数据库/Elasticsearch/7.过滤查询.md",
-    "数据库/Elasticsearch/5.索引原理.md",
-    "数据库/Elasticsearch/3.基本操作.md",
-    "数据库/Elasticsearch/2.核心概念.md",
-    "数据库/Elasticsearch/ES 小结.md",
+    "OS操作系统/自旋锁的 ABA 问题.md",
+    "Go/框架学习/go Websocket.md",
+    "需要学习的内容.md",
+    "Go/golang/依赖管理.md",
+    "OS操作系统/课内笔记/4.进程同步.md",
+    "OS操作系统/课内笔记/5.死锁.md",
+    "OS操作系统/c++多线程——互斥锁.md",
+    "OS操作系统/课内笔记/6.存储器管理.md",
+    "OS操作系统/课内笔记/1.操作系统概述.md",
+    "Go/golang/go `...` 不定长（可选）参数.md",
+    "Go/golang/go 标签和goto.md",
+    "OS操作系统/课内笔记/7.虚拟存储器.md",
+    "数据库/MySQL/Mysql 分区分表分库.md",
     "数据库/Elasticsearch/1.全文检索.md",
-    "Go/golang/go 泛型.md",
-    "未命名.canvas",
-    "2024-03-18.md",
-    "数据库/Elasticsearch/ES dev console.md",
-    "数据库/Elasticsearch/6.分词器.md",
-    "数据库/Elasticsearch/9. 集群.md"
+    "数据库/Elasticsearch/5.索引原理.md",
+    "数据库/Elasticsearch/4.高级查询.md",
+    "数据库/MySQL/6. 复杂查询.md",
+    "数据库/Elasticsearch/深度分页问题.md",
+    "数据库/缓存雪崩、缓存击穿、缓存穿透.md",
+    "面试/7. 美团.md",
+    "数据库/Elasticsearch/ES 小结.md",
+    "OS操作系统/linux常用命令.md",
+    "OS操作系统/IO多路复用.md",
+    "OS操作系统/curl命令.md",
+    "OS操作系统/进程间通信.md",
+    "OS操作系统/课内笔记/3.处理机调度与死锁.md",
+    "未命名.canvas"
   ]
 }
