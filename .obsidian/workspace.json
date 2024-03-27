@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Go/框架学习/go Websocket.md",
+                "file": "实习记录/fobrain 实习总结.md",
                 "mode": "source",
                 "source": false
               }
@@ -48,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "嵌套",
+                "query": "context",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Go/框架学习/go Websocket.md",
+                "file": "实习记录/fobrain 实习总结.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Go/框架学习/go Websocket.md",
+                "file": "实习记录/fobrain 实习总结.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Go/框架学习/go Websocket.md"
+                "file": "实习记录/fobrain 实习总结.md"
               }
             }
           }
@@ -161,32 +161,32 @@
   },
   "active": "c82d26de1dc7ef79",
   "lastOpenFiles": [
+    "实习记录/`url`和`uri`有什么区别.md",
+    "实习记录/fobrain 实习总结.md",
+    "实习记录/fobrain 部署问题.md",
+    "计算机网络/TCP/TCP 和 UDP 基本认知.md",
+    "计算机网络/TCP/TCP 的可靠.md",
+    "数据库/MySQL/14. 索引.md",
+    "数据库/Redis/4、有序集合.md",
+    "数据库/MySQL/数据库的引擎.md",
+    "数据库/MySQL/数据库的事务操作.md",
+    "Go/框架学习/http中的Cookie和Session.md",
+    "Go/框架学习/Jwt.md",
+    "计算机网络/TCP/三次握手与四次挥手.md",
+    "数据库/Redis/Redis 集群.md",
+    "面试/面试板子.md",
+    "计算机网络/HTTP/HTTP 原理和面试题.md",
+    "Go/框架学习/cron.md",
+    "Go/框架学习/plugin.md",
     "OS操作系统/自旋锁的 ABA 问题.md",
+    "OS操作系统/课内笔记/4.进程同步.md",
+    "OS操作系统/linux常用命令.md",
     "Go/框架学习/go Websocket.md",
     "需要学习的内容.md",
     "Go/golang/依赖管理.md",
-    "OS操作系统/课内笔记/4.进程同步.md",
     "OS操作系统/课内笔记/5.死锁.md",
     "OS操作系统/c++多线程——互斥锁.md",
     "OS操作系统/课内笔记/6.存储器管理.md",
-    "OS操作系统/课内笔记/1.操作系统概述.md",
-    "Go/golang/go `...` 不定长（可选）参数.md",
-    "Go/golang/go 标签和goto.md",
-    "OS操作系统/课内笔记/7.虚拟存储器.md",
-    "数据库/MySQL/Mysql 分区分表分库.md",
-    "数据库/Elasticsearch/1.全文检索.md",
-    "数据库/Elasticsearch/5.索引原理.md",
-    "数据库/Elasticsearch/4.高级查询.md",
-    "数据库/MySQL/6. 复杂查询.md",
-    "数据库/Elasticsearch/深度分页问题.md",
-    "数据库/缓存雪崩、缓存击穿、缓存穿透.md",
-    "面试/7. 美团.md",
-    "数据库/Elasticsearch/ES 小结.md",
-    "OS操作系统/linux常用命令.md",
-    "OS操作系统/IO多路复用.md",
-    "OS操作系统/curl命令.md",
-    "OS操作系统/进程间通信.md",
-    "OS操作系统/课内笔记/3.处理机调度与死锁.md",
     "未命名.canvas"
   ]
 }
