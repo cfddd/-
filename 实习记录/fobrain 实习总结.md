@@ -44,3 +44,87 @@
 	这个小bug是，如果操作时间是当前时间的+1分钟，那么任务检测会在**下一分钟**更新当前任务，更新后加载的修改后的任务发现时间已经过了，所以不执行。
 	
 	非常难以发现
+## es
+### mapping
+mapping使用Init，将初始化函数添加到各个包中，自动migrate
+
+但是需要注意，包含init的包必须被导入后才能执行init()
+
+```go
+import _ fobrain/xxx
+```
+
+如果包里面没有其他的函数，可以这样子来执行init
+
+## time 的封装
+如果我想让一些json通过Marshall或者UnMarshall可以匹配 "2006-01-02 15:04:05" 这样的localtime，而不是time.time 里面 复杂且详细的时间，就需要我们自己封装一个 localtime
+
+```go
+package localtime
+
+import (
+	"database/sql/driver"
+	"fmt"
+	"time"
+)
+
+// Time 全局定义
+type Time time.Time
+
+const timeFormat = "2006-01-02 15:04:05"
+const DateTimeLayout = "20060102150405"
+
+// MarshalJSON json
+func (t Time) MarshalJSON() ([]byte, error) {
+	b := make([]byte, 0, len(timeFormat)+2)
+	b = append(b, '"')
+	b = time.Time(t).AppendFormat(b, timeFormat)
+	b = append(b, '"')
+	return b, nil
+}
+
+// UnmarshalJSON 解析json
+func (t *Time) UnmarshalJSON(data []byte) (err error) {
+	now, err := time.ParseInLocation(`"`+timeFormat+`"`, string(data), time.Local)
+	*t = Time(now)
+	return
+}
+
+// String 字符串
+func (t Time) String() string {
+	return time.Time(t).Format(timeFormat)
+}
+
+// local 获取时间
+func (t Time) local() time.Time {
+	return time.Time(t)
+}
+
+func NewLocalTime(t time.Time) *Time {
+	ts := Time(t)
+	return &ts
+}
+
+// Value 获取时间
+func (t Time) Value() (driver.Value, error) {
+	var zeroTime time.Time
+	var ti = time.Time(t)
+	if ti.UnixNano() == zeroTime.UnixNano() {
+		return nil, nil
+	}
+	return ti, nil
+}
+
+// Scan 获取时间
+func (t *Time) Scan(v interface{}) error {
+	value, ok := v.(time.Time)
+	if ok {
+		*t = Time(value)
+		return nil
+	}
+	return fmt.Errorf("can not convert %v to timestamp", v)
+}
+
+```
+
+这些方法在time.time里面都有对应的
