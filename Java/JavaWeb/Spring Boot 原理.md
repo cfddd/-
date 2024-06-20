@@ -155,3 +155,44 @@ public class ThirdBeanConfig {
 > 通过@Bean注解的name或value属性可以声明bean的名称，如果不指定，默认bean的名称就是方法名。
 > 
 > 如果第三方bean需要依赖其它bean对象，直接在bean定义方法中设置形参即可，容器会根据类型自动装配。
+
+## 起步依赖
+![](http://douyin.cfddfc.online/myPicture/20240502140256.png)
+上面就是起步依赖
+## 自动配置
+SpringBoot的自动配置就是当spring容器启动后，一些配置类、bean对象就自动存入到了IOC容器中，不需要我们手动去声明，从而简化了开发，省去了繁琐的配置操作。
+
+但是当我们通过xml引入了一些自定义的第三方包，这些包当中定义的 Bean 对象并没有被扫描到，也就无法通过@Autowared注入的方式声明，也无法使用。
+
+现在的问题即，如何才能使用第三方的Bean对象并注入？
+
+### @ComponentScan 组件扫描
+```java
+@SpringBootApplication
+@ComponentScan({"com.xxx","com.yyy"})// 扫描后自动存入IOC容器
+public class SpringBootAppDemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootAppDemoApplication.class, args);
+    }
+
+}
+```
+
+这种方法使用繁琐，性能低，不推荐
+### @Import 导入
+使用@lmport导入的类会被Spring加载到IOC容器中，导入形式主要有以下几种：
+- 导入 普通类
+- 导入 配置类
+- 导入 ImportSelect 接口实现类
+- 第三方注解一般都会提供@EnableXxxx注解，封装@Import注解，让导入方可以不用理解源码细节自动导入，更加方便
+
+放在 SpringBootAppDemoApplication 前即可
+
+## @SpringBootApplication 解读
+![](http://douyin.cfddfc.online/myPicture/20240502155632.png)
+
+![](http://douyin.cfddfc.online/myPicture/20240502155745.png)
+
+![](http://douyin.cfddfc.online/myPicture/20240502155929.png)
+
+![](http://douyin.cfddfc.online/myPicture/20240502170931.png)
