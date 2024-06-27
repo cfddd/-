@@ -133,12 +133,12 @@ Could not autowire. There is more than one bean of 'EmpService' type.
 
 要把某个对象交给IOC容器管理，需要在对应的类上加上如下注解之一!
 
-| 注解        | 说明               | 位置 |
-| ----------- | ------------------ | ---- |
-| @Component  | 声明bean的基础注解 |    不属于以下三类时，用此注解  |
-| @Controller |         @Component的行生注解           |   标注在控制器类上   |
-| @Service    |           @Component的衍生注解         |     标注在业务类上 |
-| @Repository |         @Component的衍生注解           |     标注在数据访问类上(由于与mybatis整合，用的少) |
+| 注解          | 说明              | 位置                          |
+| ----------- | --------------- | --------------------------- |
+| @Component  | 声明bean的基础注解     | 不属于以下三类时，用此注解               |
+| @Controller | @Component的行生注解 | 标注在控制器类上                    |
+| @Service    | @Component的衍生注解 | 标注在业务类上                     |
+| @Repository | @Component的衍生注解 | 标注在数据访问类上(由于与mybatis整合，用的少) |
 每一个bean都有一个**标识名字**，默认是类名，也可以通过Value给其命名（默认开头字母小写）
 
 **service**
