@@ -12,7 +12,12 @@ CAS是Java并发中所谓lock-free机制的基础
 下面介绍一下AbstractQueuedSynchronizer（AQS），其是Java并发包中，实现各种同步结构和部分其他组成单元（如线程池中的Worker）的基础。
 
 ## AbstractQueuedSynchronizer（AQS）
-这是一个比较复杂的模块，我们尽量简化一下，理解为什么需要AQS，如何使用AQS，至少要做什么
+AQS 的全称为 AbstractQueuedSynchronizer，抽象队列同步器
+
+AQS 就是一个抽象类，主要用来构建锁和同步器。
+
+AQS 为构建锁和同步器提供了一些通用功能的实现，因此，使用 AQS 能简单且高效地构造出应用广泛的大量的同步器，比如 ReentrantLock，Semaphore，其他的诸如 ReentrantReadWriteLock，SynchronousQueue等等皆是基于 AQS 的。
+
 ### AQS 核心思想
 - 如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并且将共享资源设置为锁定状态
 - 如果被请求的共享资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制 AQS 是基于 CLH 锁 （Craig, Landin, and Hagersten locks） 实现的。
@@ -55,3 +60,5 @@ public void unlock() {
 ### AQS 资源共享方式
 1. Exclusive（独占，只有一个线程能执行，如ReentrantLock）
 2. Share（共享，多个线程可同时执行，如Semaphore/CountDownLatch）
+
+> [JavaGuide AQS 详解](https://javaguide.cn/java/concurrent/aqs.html)
