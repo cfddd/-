@@ -198,5 +198,5 @@ public class TestEmpController {
 同理，使用名字选取
 
 > @Resource与@Autowired区别
-> @Autowired 是spring框架提供的注解，而@Resource是IDK提供的注解
+> @Autowired 是spring框架提供的注解，而@Resource是JDK提供的注解
 > @Autowired 默认是按照类型注入，而@Resource默认是按照名称注入
