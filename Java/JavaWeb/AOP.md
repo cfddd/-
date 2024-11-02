@@ -6,11 +6,12 @@ AOP:Aspect Oriented Programming (面向切面编程、面向方面编程)，其�
 
 **静态代理代码**
 
-[SpringBootAppDemo/src/test/java/com/example/springbootappdemo/staticProxyModels/StaticProxyModelTests.java at master · cfddd/SpringBootAppDemo (github.com)](https://github.com/cfddd/SpringBootAppDemo/blob/master/src/test/java/com/example/springbootappdemo/staticProxyModels/StaticProxyModelTests.java)
+[静态代理](https://github.com/cfddd/SpringBootAppDemo/blob/master/src/test/java/com/example/springbootappdemo/staticProxyModels/StaticProxyModelTests.java)
+
 
 **动态代理参考代码**
 
-[SpringBootAppDemo/src/test/java/com/example/springbootappdemo/dynamicProxyModels/DynamicProxyModelTests.java at master · cfddd/SpringBootAppDemo (github.com)](https://github.com/cfddd/SpringBootAppDemo/blob/master/src/test/java/com/example/springbootappdemo/dynamicProxyModels/DynamicProxyModelTests.java)
+[动态代理](https://github.com/cfddd/SpringBootAppDemo/blob/master/src/test/java/com/example/springbootappdemo/dynamicProxyModels/DynamicProxyModelTests.java)
 
 ## Spring AOP 快速入门
 **添加依赖**

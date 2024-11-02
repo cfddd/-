@@ -178,3 +178,38 @@ COMMIT; -- 结束事务
 | 时区相关性 | 无关，不做时区转换                                 | 有关，存储 UTC 时间，查询时转换回当前时区时间                         |
 | 默认值   | 不自动存储当前时间，默认是 null                        | 自动存储当前时间（now ()）                                  |
 | 使用场景  | 记录信息修改时间等不涉及时间加减转换，对可读性要求高的场景             | 需要进行时间计算，对时区有要求的场景                                |
+## MySQL两阶段提交
+> **问题背景**：
+> 
+> MySQL InnoDB引擎下，在事务提交的时候，需要同时完成binlog和redolog的写入，如何保证两者的一致性？
+
+在正常情况下，InnoDB 会在事务提交时保证 Redolog 和 Binlog 的一致性。
+
+它通过**两阶段提交（2PC）协议**来实现这一点。
+
+### 什么是两阶段提交？
+**两阶段提交**（2PC - Two - Phase Commit）是一种在分布式系统中用于保证数据一致性的协议，在 MySQL 的 InnoDB 存储引擎中用于**确保 Binlog 和 Redolog 在事务提交时的一致性**。
+
+### 第一阶段——prepare
+这些修改操作会被记录到 Redolog 缓冲（Redo Log Buffer）中。
+
+在事务准备提交时，InnoDB 会将 Redolog 缓冲中的日志写入到 Redolog 文件，但此时这些日志处于**预提交（Prepare）状态**。这个状态意味着事务已经在 Redolog 层面做好了提交的准备，但还需要等待其他条件满足才能最终完成提交。
+
+将 XID（内部 XA 事务的 ID） 写入到 redo log，同时将 redo log 对应的事务状态设置为 prepare，然后将 redo log 持久化到磁盘（innodb_flush_log_at_trx_commit = 1 的作用）；
+### 第二阶段——commit
+首先，把 XID 写入到 binlog，然后将 binlog 持久化到磁盘（sync_binlog = 1 的作用）。
+
+然后，调用引擎的提交事务接口，将 redo log 状态设置为 commit，此时该状态并不需要持久化到磁盘，只需要 write 到文件系统的 page cache 中就够了，因为只要 binlog 写磁盘成功，就算 redo log 的状态还是 prepare 也没有关系，一样会被认为事务已经执行成功；
+
+### 异常情况
+> 在**prepare阶段前（写入redolog前）** 出现了异常
+
+相当于还没有执行sql就失败了，此时redolog和Binlog都是没有新数据的，满足一致性
+
+> 在**prepare阶段（写入redolog后）** 出现了异常
+
+此时，redolog中使用事务id去binlog中查找对应的记录，一定是不存在的，所以这个时候就需要执行**回滚操作**
+
+> 在**commit阶段（写入binlog后 或者 设置redolog为commit）** 出现了异常
+
+这个时候因为redolog和Binlog中的数据都存在，只是没有提交数据，能通过redolog中的事务id找到所有的Binlog中对应的事务id，所以可以**直接提交数据**，因为这个时候是满足一致性的
