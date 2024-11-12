@@ -30,6 +30,16 @@ XX:MaxNewSize=<young size>[unit]
 -XX:MetaspaceSize=N #设置 Metaspace 的初始大小（是一个常见的误区，后面会解释）
 -XX:MaxMetaspaceSize=N #设置 Metaspace 的最大大小
 ```
+
+### 4.显示指定栈大小
+栈空间是每个线程各自有的一块区域，如果栈空间太小，也会导致 StackOverFlow 异常。而要设置栈空间大小，只需要使用 -Xss 参数就可以。
+
+```mipsasm
+java -Xss2m GCDemo
+```
+
+上面的启动命令设置最大栈空间为 2M。
+
 ## 垃圾收集相关
 1. 垃圾收集器
 2. GC 日志记录

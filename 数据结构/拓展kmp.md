@@ -1,9 +1,9 @@
 > 来源：
 > [F04 扩展 KMP(Z 函数)_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1Y54y1o7Ca/?spm_id_from=333.337.search-card.all.click&vd_source=2d885cb62bb9393fa8a5379c72eabd82)
 > [Z 函数（扩展 KMP） - OI Wiki (oi-wiki.org)](https://oi-wiki.org/string/z-func/)
-![](http://douyin.cfddfc.online/myPicture/20240226224927.png)
+![](http://file.cfd.hhblog.top/myPicture/20240226224927.png)
 
-![](http://douyin.cfddfc.online/myPicture/20240226224950.png)
+![](http://file.cfd.hhblog.top/myPicture/20240226224950.png)
 
 ```c++
 vector<int> z_function(string s) {

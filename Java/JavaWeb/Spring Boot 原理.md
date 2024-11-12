@@ -11,7 +11,7 @@ springboot 还支持**Java系统属性**和**命令行参数**的方式进行配
 
 ## Bean 管理
 ### 获取Bean对象
-![](http://douyin.cfddfc.online/myPicture/20240501214828.png)
+![](http://file.cfd.hhblog.top/myPicture/20240501214828.png)
 
 ```java
 @SpringBootTest
@@ -38,7 +38,7 @@ public class Get {
 可以看到这里的Bean对象从IOC容器中拿到的地址都是相同的。即，**默认是单例模式的**
 
 ### Bean 的作用域
-![](http://douyin.cfddfc.online/myPicture/20240501220303.png)
+![](http://file.cfd.hhblog.top/myPicture/20240501220303.png)
 
 可以通过`@scope`来配置作用域
 ```java
@@ -157,7 +157,7 @@ public class ThirdBeanConfig {
 > 如果第三方bean需要依赖其它bean对象，直接在bean定义方法中设置形参即可，容器会根据类型自动装配。
 
 ## 起步依赖
-![](http://douyin.cfddfc.online/myPicture/20240502140256.png)
+![](http://file.cfd.hhblog.top/myPicture/20240502140256.png)
 上面就是起步依赖
 ## 自动配置
 SpringBoot的自动配置就是当spring容器启动后，一些配置类、bean对象就自动存入到了IOC容器中，不需要我们手动去声明，从而简化了开发，省去了繁琐的配置操作。
@@ -189,10 +189,10 @@ public class SpringBootAppDemoApplication {
 放在 SpringBootAppDemoApplication 前即可
 
 ## @SpringBootApplication 解读
-![](http://douyin.cfddfc.online/myPicture/20240502155632.png)
+![](http://file.cfd.hhblog.top/myPicture/20240502155632.png)
 
-![](http://douyin.cfddfc.online/myPicture/20240502155745.png)
+![](http://file.cfd.hhblog.top/myPicture/20240502155745.png)
 
-![](http://douyin.cfddfc.online/myPicture/20240502155929.png)
+![](http://file.cfd.hhblog.top/myPicture/20240502155929.png)
 
-![](http://douyin.cfddfc.online/myPicture/20240502170931.png)
+![](http://file.cfd.hhblog.top/myPicture/20240502170931.png)

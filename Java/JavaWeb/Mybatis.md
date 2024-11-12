@@ -17,7 +17,7 @@
 
 Lombok是一个实用的]ava类库，能通过注解的形式自动生成构造器、getter/setter、equals、hashcode、tostring等方法，并可以自动化生成日志变量。
 
-![](http://douyin.cfddfc.online/myPicture/20240426105121.png)
+![](http://file.cfd.hhblog.top/myPicture/20240426105121.png)
 
 ```java
 @Data

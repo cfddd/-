@@ -17,7 +17,7 @@
 
 举个例子，TransactionA开启后，调用了TransactionB方法，那么入股如果TransactionB回滚了，TransactionA该做什么呢？
 
-![](http://douyin.cfddfc.online/myPicture/20240426154642.png)
+![](http://file.cfd.hhblog.top/myPicture/20240426154642.png)
 
 ```java
 @Transactional

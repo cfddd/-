@@ -12,7 +12,7 @@
 - **redo log（重做日志）**：是 Innodb 存储引擎层生成的日志，实现了事务中的**持久性和一致性**，主要**用于掉电等故障恢复**；
 - **binlog （归档日志）**：是 Server 层生成的日志，主要**用于数据备份和主从复制**；
 ### MySQL 系统日志架构设计
-![](http://douyin.cfddfc.online/myPicture/20240131223701.png)
+![](http://file.cfd.hhblog.top/myPicture/20240131223701.png)
 _图片来自[动画讲解：MySQL两大内存BufferPool、RedoLogBuffer和三大日志binlog、redolog和undolog_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1Dr4y197ai/?spm_id_from=pageDriver&vd_source=2d885cb62bb9393fa8a5379c72eabd82)_
 ### undo log
 **undo log（回滚日志），它保证了事务的 ACID 特性中的原子性（Atomicity）**。

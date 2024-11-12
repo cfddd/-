@@ -45,7 +45,7 @@ JMM定义了一些规范来解决这些问题，开发者可以利用这些规�
 **happens-before 原则表达的意义其实并不是一个操作发生在另外一个操作的前面，虽然这从程序员的角度上来说也并无大碍。更准确地来说，它更想表达的意义是前一个操作的结果对于后一个操作是可见的，无论这两个操作是否在同一个线程里。**
 
 
-![](http://douyin.cfddfc.online/myPicture/20241019210400.png)
+![](http://file.cfd.hhblog.top/myPicture/20241019210400.png)
 
 ## volatile 变量
 对一个 volatile 变量的写操作 happens-before 于后面对这个 volatile 变量的读操作。说白了就是对 volatile 变量的写操作的结果对于发生于其后的任何操作都是可见的。

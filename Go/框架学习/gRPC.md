@@ -136,7 +136,7 @@ openssl genrsa -out server.key 2048
 openssl req -new -x509 -key server.key -out server.crt -days 36500
 openssl req -new -key server.key -out server.csr
 ```
-![](http://douyin.cfddfc.online/myPicture/20240226111959.png)
+![](http://file.cfd.hhblog.top/myPicture/20240226111959.png)
 
 `openssl req -new -nodes -key test.key -out test.csr -days 3650 -subj "/C=cn/OU=myorg/O=mycomp/CN=myname" -config ./openssl.cfg -extensions v3_req`
 
