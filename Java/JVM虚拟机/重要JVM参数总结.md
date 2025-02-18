@@ -42,5 +42,7 @@ java -Xss2m GCDemo
 
 ## 垃圾收集相关
 1. 垃圾收集器
+	1. 查看默认垃圾收集器`java -XX:+PrintCommandLineFlags -version`
+	2. `jconsole`工具
 2. GC 日志记录
 3. 处理 OOM

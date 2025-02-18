@@ -4,7 +4,7 @@
 ## AQS是什么
 AQS 就是一个抽象类，主要用来构建锁和同步器。
 
-```
+```java
 public abstract class AbstractQueuedSynchronizer extends AbstractOwnableSynchronizer implements java.io.Serializable {
 }
 ```

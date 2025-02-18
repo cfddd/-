@@ -180,6 +180,14 @@ find . -type d | sort              查找当前所有目录并排序
 find . -size +100M                 查找当前目录大于100M的文件
 ```
 
+**wc**
+
+```
+wc -l                               表示只统计行数
+grep -o "apple" example.txt | wc -l 统计字符串出现次数
+
+```
+
 **七、yum常用命令**
 
 ```text

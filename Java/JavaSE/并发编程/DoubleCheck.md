@@ -15,3 +15,5 @@ public class doubleCheck {
 }
 
 ```
+- **可见性**
+- **双重判断**
