@@ -11,10 +11,17 @@ fi
 
 # 查找所有 Markdown 文件并处理
 find "$directory" -type f -name "*.md" | while read -r file; do
-    # 使用 sed 替换匹配的格式，并将路径中的空格替换为 %20
-    sed -i -E 's|!\[\[(Pasted image [0-9]{14}\.png)\]\]|![](attachments/\1)|g' "$file"
-    sed -i -E 's|attachments/([^)]* )|attachments/\1|g' "$file" | sed -i -E 's| |%20|g' "$file"
+    # 仅修改 ![[]] 内部的内容，并将路径中的所有空格替换为 %20
+    sed -i -E 's|!\[\[(Pasted image [0-9]{14}\.png)\]\]|![](addition/\1)|g' "$file"
+    sed -i -E 's|!\[\[(Pasted image [0-9]{14}.*?)\]\]|![](addition/\1)|g' "$file"
+    sed -i -E 's|!\[\[(.*)\]\]|![](\1)|g' "$file"
+    sed -i -E 's|!\[\[([^\]]*)\]|![](\1)|g' "$file"
+    sed -i -E 's|(addition/[^)]*) |\1%20|g' "$file"
+    sed -i -E 's|(addition/[^)]*) |\1%20|g' "$file"
+    sed -i -E 's|(addition/[^)]*) |\1%20|g' "$file"
+    sed -i -E 's|(addition/[^)]*) |\1%20|g' "$file"
     echo "Updated: $file"
 done
 
 echo "处理完成！"
+

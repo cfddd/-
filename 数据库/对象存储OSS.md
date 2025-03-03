@@ -20,14 +20,14 @@
 对象存储对外提供的一般都是Restful风格的接口。
 
 和gin类似
-![[Pasted image 20230818215848.png]]
+![](addition/Pasted%20image%2020230818215848.png)
 ### MultiUpload接口
 解决大文件的问题
-![[Pasted image 20230818220002.png]]
+![](addition/Pasted%20image%2020230818220002.png)
 ### Listprefix接口
 
 查看bucket里面的对象
-![[Pasted image 20230818220023.png]]
+![](addition/Pasted%20image%2020230818220023.png)
 
 ### 关于运行代码
 
@@ -39,7 +39,7 @@
 [OSS管理控制台 (aliyun.com)](https://oss.console.aliyun.com/bucket/oss-cn-beijing/cfddfc/overview)
 在这里可以看到**endpoint**
 当然是选择外网访问的第一个啦
-![[Pasted image 20230819202350.png]]
+![](addition/Pasted%20image%2020230819202350.png)
 在头像触摸可以出来accessKey管理，新建一个就可以使用。
 
 分别是acessKey和acessSecretKey，在之后登录会用到

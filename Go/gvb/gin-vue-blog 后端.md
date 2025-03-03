@@ -3,7 +3,7 @@
 
 # 后端项目搭建
 建了目录结构：
-![[Pasted image 20230918110632.png]]
+![](addition/Pasted%20image%2020230918110632.png)
 
 **.gitignore** ： 
 - git 为我们提供了一个.gitignore 文件，只要在这个文件中声明哪些文件你不希望添加到 git 中去，这样当你使用 git add .的时候这些文件就会被自动忽略掉。
@@ -35,7 +35,7 @@ env: dev # 环境：开发环境
 ```
 
 在 config 目录中创建相应结构体：
-![[Pasted image 20230918110851.png]]
+![](addition/Pasted%20image%2020230918110851.png)
 
 
 ```go
@@ -323,7 +323,7 @@ global.Log.Infof("gvb_server运行在：%s", addr)
 router.Run(addr)
 ```
 
-![[Pasted image 20230920094909.png]]
+![](addition/Pasted%20image%2020230920094909.png)
 
 路由分组，分层
 ```go
@@ -1657,7 +1657,7 @@ func FailWithError(err error, obj any, c *gin.Context) {
 ```
 
 即，如果前端传的信息不全，那么会有对应提示
-![[Pasted image 20231005160417.png]]
+![](addition/Pasted%20image%2020231005160417.png)
 **因为这里缺少必须要传的 name 信息**
 
 # 广告管理
@@ -1865,7 +1865,7 @@ func main() {
 ```
 
 运行结果：
-![[Pasted image 20231006211525.png]]
+![](addition/Pasted%20image%2020231006211525.png)
 
 较详细用法：
 [Golang - Structs 包的使用_golang structs包_叁丶贰壹的博客-CSDN博客](https://blog.csdn.net/yang_kaiyue/article/details/120989276) 
@@ -1975,7 +1975,7 @@ import (
 )
 ```
 本项目中为：
-![[Pasted image 20231007133734.png]]
+![](addition/Pasted%20image%2020231007133734.png)
 
 ### 路由部分
 
@@ -2008,7 +2008,7 @@ router.GET("/swagger/*any", gs.WrapHandler(swaggerFiles.Handler))
 - 上面依次操作之后，重新运行
 - 浏览器：127.0.0.1:8080/swagger/index.html 
 
-![[Pasted image 20231007135028.png]]
+![](addition/Pasted%20image%2020231007135028.png)
 
 
 ### 使用
@@ -2074,7 +2074,7 @@ func (AdvertApi) AdvertListView(c *gin.Context) {}
 ```
 
 结果：
-![[Pasted image 20231007143811.png]]
+![](addition/Pasted%20image%2020231007143811.png)
 
 # air 项目自动重启
 
@@ -2095,13 +2095,13 @@ air **配置文件**：
 air init
 ```
 即，
-![[Pasted image 20231007145054.png]]
+![](addition/Pasted%20image%2020231007145054.png)
 
 之后加到. gitignore：
 
 **. gitignore** ： 
 - git 为我们提供了一个. gitignore 文件，只要在这个文件中声明哪些文件你不希望添加到 git 中去，这样当你使用 git add .的时候这些文件就会被自动忽略掉。
-![[Pasted image 20231007150202.png]]
+![](addition/Pasted%20image%2020231007150202.png)
 
 
 # 菜单管理
@@ -2815,7 +2815,7 @@ func ParseToken(tokenStr string) (*CustomClaims, error) {
 #### 测试函数
 
 测试函数中因为要测试的函数，**需要读配置文件**，但是如果没读，就会引起如下报错:
-![[Pasted image 20231009105917.png]]
+![](addition/Pasted%20image%2020231009105917.png)
 
 代码：
 ```go
@@ -3790,7 +3790,7 @@ email:
 详情：
 [github.com/gin-contrib/sessions教程-CSDN博客](https://blog.csdn.net/qq_16763983/article/details/105049118) 
 session 原理：
-![[Pasted image 20231012163221.png]]
+![](addition/Pasted%20image%2020231012163221.png)
 
 #### 安装
 
@@ -4081,10 +4081,10 @@ func (q QQ) GetPath() string {
 qq 登录回调会有一个 code，我们如何验证？
 - `/login? flag=qd` 是回调地址
 
-![[Pasted image 20231012211623.png]]
+![](addition/Pasted%20image%2020231012211623.png)
 
 图解：
-![[Pasted image 20231012211855.png]]
+![](addition/Pasted%20image%2020231012211855.png)
 - 用 go 做 http 的请求挺麻烦，没有 python 方便
 - qq 登录相当于一个插件，所以逻辑代码放在 plugins 文件中
 
@@ -4964,9 +4964,9 @@ func (MessageApi) MessageRecordView(c *gin.Context) {
 中的下载链接是没有问题的，直接成功
 
 压缩包解压 -> bin 目录 -> 双击 elasticsearch. bat ->运行如下
-![[Pasted image 20231017161946.png]]
+![](addition/Pasted%20image%2020231017161946.png)
 -> 即可浏览器访问 localhost: 9200 
-![[Pasted image 20231017162032.png]]
+![](addition/Pasted%20image%2020231017162032.png)
 
 如果出现上面的信息，说明已经启动并运行一个 Elasticsearch 节点了
 
@@ -5033,7 +5033,7 @@ http.cors.allow-origin: "*"
 @注意，设置参数的时候:后面要有空格！
 ```
 
-![[Pasted image 20231017203810.png]]
+![](addition/Pasted%20image%2020231017203810.png)
 - 修改完配置将es重启,浏览器访问 http://localhost:9100
 
 **到此，Elasticsearch 和 ElasticSearch-head 已经装好了**
@@ -5043,7 +5043,7 @@ http.cors.allow-origin: "*"
 - elasticsearch 的 bin 目录下有一个 elasticsearch-service.bat
 - cmd 进入 bin 目录下执行: elasticsearch-service. bat install
 - 查看电脑服务 es 已经存在了 -- **不能和 elasticsearch. bat 同时打开** 
-![[Pasted image 20231017205810.png]]
+![](addition/Pasted%20image%2020231017205810.png)
 
 ```shell
 elasticsearch-service.bat后面还可以执行这些命令

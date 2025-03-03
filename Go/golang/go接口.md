@@ -23,7 +23,7 @@ func main() {
 	fmt.Println(c) // "12", = len("hello, Dolly")
 }
 ```
-![[Pasted image 20231127204316.png]]
+![](addition/Pasted%20image%2020231127204316.png)
 Fprintf 函数接受一个 io.Writer 的接口类型
 要让我们的 ByteCounter 类型可以被 Fprintf 函数接受，就需要我们实现 Fprintf 函数的方法（唯一的一个 Write 方法）
 

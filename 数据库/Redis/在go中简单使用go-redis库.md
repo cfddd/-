@@ -50,7 +50,7 @@ redis-cli.exe
 
 在你喜欢的代码编辑器中创建一个名为 `main.go` 的文件，然后复制以下示例代码到文件中：
 
-![[Pasted image 20230827214048.png]]
+![](addition/Pasted%20image%2020230827214048.png)
 
 输出
 ```shell
