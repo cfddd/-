@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# 指定要处理的文件夹
+directory="$1"
+
+# 确保用户提供了文件夹路径
+if [ -z "$directory" ]; then
+    echo "请提供要处理的文件夹路径"
+    exit 1
+fi
+
+# 查找所有 Markdown 文件并处理
+find "$directory" -type f -name "*.md" | while read -r file; do
+    # 使用 sed 替换匹配的格式，并将路径中的空格替换为 %20
+    sed -i -E 's|!\[\[(Pasted image [0-9]{14}\.png)\]\]|![](attachments/\1)|g' "$file"
+    sed -i -E 's|attachments/([^)]* )|attachments/\1|g' "$file" | sed -i -E 's| |%20|g' "$file"
+    echo "Updated: $file"
+done
+
+echo "处理完成！"
