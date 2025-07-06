@@ -64,3 +64,53 @@ SameSite 是 Cookie 的一个属性，用于限制 Cookie 在跨站请求中的�
 	- **HTTP Refer**字段：判断请求的来源是否是用户的域名/ip
 	- **CSRF令牌**：基于随机数，在隐藏的表单中添加，放到Http 的头部，让攻击者难以识别，但是服务端必须要去验证
 	- **SameSite Cookie**属性：大部分浏览器支持，cookie只能给目标网站使用，禁止网页私自转发。有两种严格的模式
+
+## 实操
+
+### 传统前端设置Cookie
+是否会自动携带 cookie，**关键取决于 `http` 这个请求工具（比如 axios）默认的配置**。
+
+- **【同域调用】**：**浏览器只会自动携带与当前请求域名匹配且符合路径、SameSite 等条件的 cookie**，即同域（协议+域名+端口都相同），浏览器会自动带 cookie，无需额外配置
+- **【跨域调用】**：**前端发起跨域请求时，需要额外设置**，在 axios 或 fetch 中显式配置 `withCredentials: true`（fetch 对应 `credentials: 'include'`）
+
+### 使用 HttpOnly Cookie 存储 Token 的方案（推荐做法）
+
+让后端在登录成功后，把 token 写入一个带有 `HttpOnly` 属性的 Cookie 中，这样前端无法通过 JS 访问 token，但浏览器请求时会自动携带它，从而完成身份认证。
+#### 前端流程
+
+1. 用户填写用户名 + 密码，点击登录
+2. 发起登录请求：`POST /api/login`
+3. 登录成功后，后端 **通过 `Set-Cookie` 返回带有 HttpOnly 的 token**
+4. 前端**拿不到 token**，但浏览器之后发起请求时，会自动携带 cookie
+
+```js
+// 登录请求（注意 credentials）
+fetch('/api/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  credentials: 'include', // 关键：让浏览器携带 cookie
+  body: JSON.stringify({
+    username: 'admin',
+    password: '123456'
+  })
+})
+
+```
+
+#### 后端流程（伪代码）
+```js
+// 假设这是 Node.js/Express 或类似后端框架
+res.cookie('token', accessToken, {
+  httpOnly: true,     // JS 不能访问（防止 XSS）
+  secure: true,       // 只在 HTTPS 下传输
+  sameSite: 'Strict', // 防止跨站请求伪造（CSRF）
+  maxAge: 1000 * 60 * 60 * 24 * 7 // 有效期 7 天
+})
+res.json({ success: true })
+
+```
+之后：
+- 每个请求浏览器都会自动携带这个 cookie
+- 后端可以读取 `req.cookies.token` 来验证身份
