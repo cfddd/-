@@ -21,3 +21,34 @@
             - JMockit 是一个轻量级的 Java Mock 框架，它支持对类和接口的 Mock，并且可以在字节码层面进行操作。它提供了两种不同的 Mock 方式：**行为验证（Expectations）和模拟实现（Mock - ups）**。行为验证可以检查方法是否按照预期被调用，模拟实现可以重新定义方法的行为。JMockit 的一个优势是它可以在不改变原有代码结构的情况下进行 Mock，例如可以直接在测试类中通过`@Mocked`注解来 Mock 一个对象，然后在测试方法中使用。
         - **应用场景**：
             - 适用于对 Java 代码进行高效的单元测试和集成测试。特别是在需要对一些复杂的对象关系和方法调用进行验证和模拟时，JMockit 可以提供简洁的解决方案。例如，在测试一个多线程的 Java 程序时，JMockit 可以用于模拟线程安全相关的方法调用，检查线程之间的交互是否符合预期。
+
+### Case：mock类中静态私有变量
+```java
+public class MyService {
+    private static final ExternalService service = new ExternalService();
+
+    public static String doSomething(String input) {
+        return service.call(input); // 想 mock call 方法
+    }
+}
+
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(MyService.class)
+public class MyServiceTest {
+
+    @Test
+    public void testDoSomething() throws Exception {
+        ExternalService mockService = Mockito.mock(ExternalService.class);
+        Mockito.when(mockService.call("abc")).thenReturn("mocked");
+
+        // 修改私有静态字段
+        Field field = MyService.class.getDeclaredField("service");
+        field.setAccessible(true);
+        field.set(null, mockService);
+
+        String result = MyService.doSomething("abc");
+        assertEquals("mocked", result);
+    }
+}
+```
