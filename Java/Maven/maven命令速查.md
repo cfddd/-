@@ -1,5 +1,16 @@
 > made by :_CHATGPT_
 
+## 常见命令
+
+```sh
+mvn test -Dtest=XxxTest -o # 跳过 依赖下载（mvn 默认会跑 dependency:resolve），但是编译步骤会保留。
+mvn -o test              # 离线模式，不下载依赖
+
+mvn test -DskipTests     # 只编译不跑单测
+
+mvn verify -DskipTests   # 验证构建流程，但不跑单测
+```
+
 ## 🔧 基础构建
 
 - **`mvn clean`**
